@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>সুরঘর · Surghor</title>
+<meta name="description" content="Rabindrasangeet, Hindustani raags and classical piano in one place, with a mood radio that plays from all three.">
+<meta name="theme-color" content="#f6f1e7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap">
+<style>
+:root{
+  --bg:#f6f1e7; --card:#fffdf8; --ink:#2b2622; --soft:#6f655c; --line:#e3d9c9;
+  --clay:#b5695a; --raag:#7a5a9e; --piano:#3d6e86; --tagore:#b5695a; --focus:#2f6fd6;
+  --bn:"Tiro Bangla","Hind Siliguri",serif; --ui:"Hind Siliguri",system-ui,sans-serif; --en:"Fraunces",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c1a18; --card:#262321; --ink:#efe8dc; --soft:#b2a798; --line:#3a3531; --clay:#d4897a; --raag:#b39ad6; --piano:#7fb3cc; --tagore:#d4897a; --focus:#8ab4ff;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 120px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--bn);font-weight:400;font-size:2.2rem;margin:0}
+h1 small{font-family:var(--en);font-size:1rem;color:var(--soft);margin-left:8px}
+.today{color:var(--soft);font-size:.95rem}
+h2{font-family:var(--bn);font-weight:400;font-size:1.4rem;margin:36px 0 12px}
+h2 small{font-family:var(--en);font-size:.9rem;color:var(--soft);margin-left:6px}
+
+.sites{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:22px}
+.site{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:18px}
+.site:hover{border-color:var(--c)}
+.site b{font-family:var(--bn);font-weight:400;font-size:1.5rem;display:block}
+.site i{font-family:var(--en);font-style:normal;color:var(--c);font-size:.95rem}
+.site p{margin:8px 0 0;color:var(--soft);font-size:.92rem}
+
+.radio{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.guess{margin:0 0 14px;font-size:1.02rem}
+.guess b{font-family:var(--bn);font-weight:400;font-size:1.15rem}
+.moods{display:flex;flex-wrap:wrap;gap:8px}
+.mood{font:inherit;cursor:pointer;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.mood span{color:var(--soft);font-size:.85rem;margin-left:4px}
+.mood[aria-pressed="true"]{background:var(--clay);border-color:var(--clay);color:#fff}
+.mood[aria-pressed="true"] span{color:#fff}
+.mix{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;color:var(--soft);font-size:.92rem}
+.mix label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.btn{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:10px 20px;background:var(--ink);color:var(--bg);font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.status{color:var(--soft);font-size:.9rem}
+
+.player{display:none;margin-top:18px;gap:18px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+.player.on{display:grid}
+.video{position:relative;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
+.video > div,.video iframe{position:absolute;inset:0;width:100%;height:100%}
+.now{margin-top:10px}
+.tag{display:inline-block;font-size:.78rem;font-weight:600;color:#fff;background:var(--c);border-radius:999px;padding:1px 9px}
+.now .t{font-family:var(--bn);font-size:1.2rem;margin:4px 0 0}
+.now .s{color:var(--soft);font-size:.9rem}
+.controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.queue{list-style:none;margin:0;padding:0;max-height:420px;overflow:auto;border-top:1px solid var(--line)}
+.queue li{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.queue li.cur{background:color-mix(in srgb,var(--clay) 10%,transparent)}
+.queue li .dot{width:8px;height:8px;border-radius:50%;background:var(--c);margin-top:8px;flex:none}
+.queue li .q{min-width:0}
+.queue li .q div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue li .q small{color:var(--soft)}
+.note{color:var(--soft);font-size:.85rem;margin-top:24px}
+@media (max-width:720px){.player{grid-template-columns:1fr} h1{font-size:1.8rem}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>সুরঘর<small>Surghor</small></h1>
+    <div class="today" id="today"></div>
+  </header>
+
+  <div class="sites">
+    <a class="site" style="--c:var(--tagore)" href="/Anandadhara/">
+      <b>আনন্দধারা</b><i>Anandadhara · Rabindrasangeet</i>
+      <p>রবীন্দ্রনাথের ২,১৫৬টি গান — কথা, পর্যায়, রাগ, তাল, ভাব আর সেরা রেকর্ডিং।</p>
+    </a>
+    <a class="site" style="--c:var(--raag)" href="/Raagmala/">
+      <b>রাগমালা</b><i>Raagmala · Hindustani raags</i>
+      <p>৮২টি রাগ, প্রহর আর ভাব অনুযায়ী — খেয়াল, ধ্রুপদ, ঠুমরি, শিল্পী আর ঘরানা।</p>
+    </a>
+    <a class="site" style="--c:var(--piano)" href="/Piano/">
+      <b>পিয়ানো</b><i>Piano · Classical piano</i>
+      <p>বাখ থেকে বিংশ শতক — ৯৯৯টি রচনা, সুরকার, পিয়ানোবাদক আর মেজাজ।</p>
+    </a>
+  </div>
+
+  <h2>আজকের সুর<small>Mood radio</small></h2>
+  <section class="radio" aria-label="Mood radio">
+    <p class="guess" id="guess"></p>
+    <div class="moods" id="moods" role="group" aria-label="Mood"></div>
+    <div class="mix" role="group" aria-label="Sources">
+      <label><input type="checkbox" data-src="tagore" checked> রবীন্দ্রসঙ্গীত</label>
+      <label><input type="checkbox" data-src="raag" checked> রাগ</label>
+      <label><input type="checkbox" data-src="piano" checked> পিয়ানো</label>
+    </div>
+    <div class="acts">
+      <button class="btn" id="play" type="button">▶ বাজাও · Play</button>
+      <span class="status" id="status" aria-live="polite"></span>
+    </div>
+
+    <div class="player" id="player">
+      <div>
+        <div class="video"><div id="yt"></div></div>
+        <div class="now" id="now"></div>
+        <div class="controls">
+          <button class="btn ghost" id="prev" type="button">⏮ আগের</button>
+          <button class="btn ghost" id="toggle" type="button">⏯ থামাও/চালাও</button>
+          <button class="btn ghost" id="next" type="button" title="Skip — the radio learns from this">⏭ পরের</button>
+          <button class="btn ghost" id="like" type="button" aria-pressed="false">♡ ভালো লাগল</button>
+          <a class="btn ghost" id="open" href="#" style="text-decoration:none">সাইটে খোলো ↗</a>
+        </div>
+      </div>
+      <ol class="queue" id="queue" aria-label="Up next"></ol>
+    </div>
+  </section>
+
+  <p class="note">রেডিও আপনার পছন্দ শেখে: কোনটা শেষ পর্যন্ত শুনলেন, কোনটা বাদ দিলেন, কোনটা ভালো লাগল। সব তথ্য শুধু এই ব্রাউজারে থাকে।
+    <button class="btn ghost" id="forget" type="button" style="padding:4px 12px;font-size:.85rem">ভুলে যাও · Reset</button></p>
+</div>
+
+<script>
+"use strict";
+/* ---------- Shared moods: each maps to the moods each site already uses ---------- */
+const MOODS = {
+  calm:    { bn: "শান্ত",   en: "Calm",     tagore: ["shanti"],                    raag: ["shanta"],   piano: ["Calm", "Contemplative"] },
+  bhakti:  { bn: "ভক্তি",   en: "Devotion", tagore: ["bhakti"],                    raag: ["bhakti"],   piano: ["Contemplative"] },
+  prem:    { bn: "প্রেম",   en: "Love",     tagore: ["prem"],                      raag: ["shringar"], piano: ["Tender", "Passionate"] },
+  viraha:  { bn: "বিরহ",   en: "Longing",  tagore: ["viraha", "bishad", "smriti"], raag: ["karuna"],   piano: ["Melancholy"] },
+  ananda:  { bn: "আনন্দ",  en: "Joy",      tagore: ["ananda", "utsav", "kautuk"], raag: ["ullas"],    piano: ["Joyful", "Playful", "Dancing"] },
+  prakriti:{ bn: "প্রকৃতি", en: "Nature",   tagore: ["prakriti-bhava"],            raag: ["shanta"],   piano: ["Dreamy"] },
+  sahas:   { bn: "সাহস",   en: "Courage",  tagore: ["sahas", "deshprem"],         raag: ["gambhir"],  piano: ["Heroic", "Stormy"] },
+};
+const SRC = {
+  tagore: { bn: "রবীন্দ্রসঙ্গীত", c: "var(--tagore)", url: "/Anandadhara/", data: "/Anandadhara/songs.json" },
+  raag:   { bn: "রাগ",           c: "var(--raag)",   url: "/Raagmala/",    data: "/Raagmala/raagmala.json" },
+  piano:  { bn: "পিয়ানো",         c: "var(--piano)",  url: "/Piano/",       data: "/Piano/works.json" },
+};
+
+/* ---------- Time and season (same cut-offs as Anandadhara) ---------- */
+const SEASONS = { Grishma: "গ্রীষ্ম", Barsha: "বর্ষা", Sharat: "শরৎ", Hemanta: "হেমন্ত", Sheet: "শীত", Basanta: "বসন্ত" };
+function currentSeason(d = new Date()) {
+  const md = (d.getMonth() + 1) * 100 + d.getDate();
+  if (md >= 414 && md < 615) return "Grishma";
+  if (md >= 615 && md < 817) return "Barsha";
+  if (md >= 817 && md < 1018) return "Sharat";
+  if (md >= 1018 && md < 1216) return "Hemanta";
+  if (md >= 1216 || md < 213) return "Sheet";
+  return "Basanta";
+}
+// Raagmala's 8 prahars: 1 = 6–9 am … 7 = 0–3, 8 = 3–6.
+const prahar = (h) => h >= 6 ? Math.floor((h - 6) / 3) + 1 : (h < 3 ? 7 : 8);
+const PART = [[5, 9, "ভোর", "early morning", ["bhakti", "calm"]], [9, 12, "সকাল", "morning", ["ananda", "prakriti"]],
+  [12, 16, "দুপুর", "afternoon", ["prakriti", "calm"]], [16, 19, "বিকেল", "late afternoon", ["viraha", "prem"]],
+  [19, 22, "সন্ধ্যা", "evening", ["prem", "bhakti"]], [22, 29, "রাত", "night", ["calm", "viraha"]]];
+function dayPart(h) { const x = h < 5 ? h + 24 : h; return PART.find(([a, b]) => x >= a && x < b); }
+
+/* ---------- What the radio has learned (this browser only) ---------- */
+const KEY = "surghor.v1";
+function loadMem() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+let mem = Object.assign({ mood: {}, src: {}, liked: [], skipped: [], played: [] }, loadMem());
+function saveMem() { try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch {} }
+const bump = (obj, k, d) => { obj[k] = Math.max(-5, Math.min(10, (obj[k] || 0) + d)); };
+const keepLast = (arr, n) => arr.splice(0, Math.max(0, arr.length - n));
+
+function guessMood() {
+  const now = new Date(), part = dayPart(now.getHours());
+  // Start from the time of day, then let what was liked or skipped at this time tip the balance.
+  const score = {};
+  Object.keys(MOODS).forEach((m) => { score[m] = (mem.mood[part[3] + ":" + m] || 0) * 0.6; });
+  score[part[4][0]] += 3; score[part[4][1]] += 2;
+  const s = currentSeason(now);
+  if (s === "Barsha" || s === "Basanta") score.prakriti += 1.5;
+  return Object.entries(score).sort((a, b) => b[1] - a[1])[0][0];
+}
+
+/* ---------- UI ---------- */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let mood = guessMood();
+const now0 = new Date(), part0 = dayPart(now0.getHours()), season0 = currentSeason(now0);
+$("today").textContent = `${part0[2]} · ${SEASONS[season0]} · ${now0.toLocaleDateString("en-IN", { day: "numeric", month: "long" })}`;
+function renderGuess() {
+  $("guess").innerHTML = `এখন ${part0[2]}, ঋতু ${SEASONS[season0]}। আজ মনে হচ্ছে <b>${MOODS[mood].bn}</b> <span class="status">(${MOODS[mood].en})</span> — নাকি অন্য কিছু?`;
+  $("moods").innerHTML = Object.entries(MOODS).map(([k, m]) =>
+    `<button class="mood" type="button" data-m="${k}" aria-pressed="${k === mood}">${m.bn}<span>${m.en}</span></button>`).join("");
+}
+renderGuess();
+$("moods").addEventListener("click", (e) => {
+  const b = e.target.closest(".mood"); if (!b) return;
+  mood = b.dataset.m; renderGuess();
+  if (queue.length && build()) go(0);
+});
+
+/* ---------- Data: loaded only when the radio starts ---------- */
+let data = null;
+async function loadData() {
+  if (data) return data;
+  $("status").textContent = "গান আনা হচ্ছে…";
+  const get = (u) => fetch(u).then((r) => { if (!r.ok) throw new Error(u); return r.json(); }).catch(() => null);
+  const [a, r, p] = await Promise.all([get(SRC.tagore.data), get(SRC.raag.data), get(SRC.piano.data)]);
+  data = { tagore: a, raag: r, piano: p };
+  const missing = Object.keys(data).filter((k) => !data[k]).map((k) => SRC[k].bn);
+  $("status").textContent = missing.length ? `আনা গেল না: ${missing.join(", ")}` : "";
+  return data;
+}
+
+const pickVideo = (vs) => vs && vs.length ? vs[Math.floor(Math.random() * Math.min(vs.length, 3))] : null;
+function candidates(src, m) {
+  const want = new Set(MOODS[m][src]), d = data[src], ph = prahar(new Date().getHours()), season = currentSeason();
+  const out = [];
+  if (src === "tagore" && d) {
+    for (const s of d.songs) {
+      if (!s.videos || !s.videos.length || !(s.moods || []).some((x) => want.has(x))) continue;
+      const v = pickVideo(s.videos);
+      let w = 1 + Math.log10((v.views || 1) + 1) / 3;
+      if (m === "prakriti" && s.season === season) w += 3;
+      out.push({ src, key: "t:" + s.id, vid: v.id, title: s.bn, sub: [s.en, (v.singers || []).join(", ")].filter(Boolean).join(" · "), link: SRC.tagore.url + "#/song/" + encodeURIComponent(s.id), w });
+    }
+  }
+  if (src === "raag" && d) {
+    const vids = d.videos || {};
+    for (const r of d.raags) {
+      const byForm = Object.values(r.videos || {}).flat(); if (!byForm.length) continue;
+      const moodHit = (r.moods || []).some((x) => want.has(x)), timeHit = (r.prahar || []).includes(ph);
+      const seasonRaag = (season === "Barsha" && /malhar|megh|desh/.test(r.id)) || (season === "Basanta" && /basant|bahar|hindol/.test(r.id));
+      // The hour matters most for a raag: off-hour raags only when nothing fits.
+      if (!timeHit && !(m === "prakriti" && seasonRaag)) continue;
+      let w = (moodHit ? 3 : 0.4) + (seasonRaag ? 2 : 0);
+      const id = byForm[Math.floor(Math.random() * Math.min(byForm.length, 4))], v = vids[id] || {};
+      const artist = (v.artists || []).map((a) => (d.artists.find((x) => x.id === a) || {}).en || a).join(", ");
+      out.push({ src, key: "r:" + r.id, vid: id, title: `রাগ ${r.bn}`, sub: [r.en, artist, v.form].filter(Boolean).join(" · "), link: SRC.raag.url + "#/raag/" + encodeURIComponent(r.id), w });
+    }
+  }
+  if (src === "piano" && d) {
+    const comp = d.meta.composers || [];
+    for (const wk of d.works) {
+      if (!wk.v || !wk.v.length || !(wk.moods || []).some((x) => want.has(x))) continue;
+      const v = pickVideo(wk.v), c = comp[wk.c] || {};
+      out.push({ src, key: "p:" + wk.id, vid: v.id, title: wk.t, sub: [c.n, wk.cat, (v.p || []).join(", ")].filter(Boolean).join(" · "), link: SRC.piano.url + "#/work/" + encodeURIComponent(wk.id), w: 1 + (wk.pop || 0) / 40 });
+    }
+  }
+  const liked = new Set(mem.liked), skipped = new Set(mem.skipped), played = new Set(mem.played.slice(-60));
+  for (const c of out) {
+    if (liked.has(c.key)) c.w *= 2.5;
+    if (skipped.has(c.key)) c.w *= 0.1;
+    if (played.has(c.key)) c.w *= 0.3;   // fresh things first
+  }
+  return out;
+}
+function weightedTake(list, n) {
+  const res = [], pool = list.slice();
+  while (res.length < n && pool.length) {
+    const tot = pool.reduce((s, c) => s + c.w, 0); let r = Math.random() * tot, i = 0;
+    while (i < pool.length - 1 && (r -= pool[i].w) > 0) i++;
+    res.push(pool.splice(i, 1)[0]);
+  }
+  return res;
+}
+
+/* ---------- Queue ---------- */
+let queue = [], pos = 0;
+const enabled = () => [...document.querySelectorAll("[data-src]")].filter((x) => x.checked).map((x) => x.dataset.src);
+function build() {
+  const srcs = enabled().filter((s) => data && data[s]);
+  if (!srcs.length) { $("status").textContent = "অন্তত একটা উৎস বেছে নিন।"; return false; }
+  // Share of each source leans toward what has been finished rather than skipped.
+  const share = Object.fromEntries(srcs.map((s) => [s, Math.max(0.3, 1 + (mem.src[s] || 0) * 0.15)]));
+  const lists = Object.fromEntries(srcs.map((s) => [s, weightedTake(candidates(s, mood), 20)]));
+  // Raags run long (often 15–40 min), so they come less often than songs and piano pieces.
+  if (lists.raag) share.raag *= 0.6;
+  queue = [];
+  for (let i = 0; i < 24; i++) {
+    const avail = srcs.filter((s) => lists[s].length); if (!avail.length) break;
+    const last = queue[queue.length - 1]?.src;
+    const opts = avail.length > 1 ? avail.filter((s) => s !== last) : avail;
+    const tot = opts.reduce((t, s) => t + share[s], 0); let r = Math.random() * tot;
+    const s = opts.find((x) => (r -= share[x]) <= 0) || opts[opts.length - 1];
+    queue.push(lists[s].shift());
+  }
+  pos = 0;
+  if (!queue.length) { $("status").textContent = "এই ভাবের কিছু পাওয়া গেল না।"; return false; }
+  renderQueue();
+  return true;
+}
+function renderQueue() {
+  $("queue").innerHTML = queue.map((q, i) => `<li data-i="${i}" class="${i === pos ? "cur" : ""}" style="--c:${SRC[q.src].c}"><span class="dot"></span><span class="q"><div>${esc(q.title)}</div><small>${esc(SRC[q.src].bn)} · ${esc(q.sub)}</small></span></li>`).join("");
+  const q = queue[pos];
+  $("now").innerHTML = q ? `<span class="tag" style="--c:${SRC[q.src].c}">${esc(SRC[q.src].bn)}</span><div class="t">${esc(q.title)}</div><div class="s">${esc(q.sub)}</div>` : "";
+  if (q) { $("open").href = q.link; $("like").textContent = mem.liked.includes(q.key) ? "♥ ভালো লাগল" : "♡ ভালো লাগল"; $("like").setAttribute("aria-pressed", mem.liked.includes(q.key)); }
+  $("queue").querySelector(".cur")?.scrollIntoView({ block: "nearest" });
+}
+$("queue").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) go(+li.dataset.i, "jump"); });
+
+/* ---------- Learning signals ---------- */
+function learn(q, how) {
+  if (!q) return;
+  const part = dayPart(new Date().getHours())[3];
+  if (how === "skip") { bump(mem.mood, part + ":" + mood, -0.5); bump(mem.src, q.src, -0.5); mem.skipped.push(q.key); keepLast(mem.skipped, 300); }
+  if (how === "done") { bump(mem.mood, part + ":" + mood, 1); bump(mem.src, q.src, 1); }
+  if (how === "like") { bump(mem.mood, part + ":" + mood, 2); bump(mem.src, q.src, 1); }
+  saveMem();
+}
+
+/* ---------- YouTube player ---------- */
+let yt = null, ytReady = null, started = 0;
+function ensureYT() {
+  if (ytReady) return ytReady;
+  ytReady = new Promise((res) => {
+    window.onYouTubeIframeAPIReady = () => {
+      yt = new YT.Player("yt", { width: "100%", height: "100%", playerVars: { autoplay: 1, rel: 0, modestbranding: 1, playsinline: 1 },
+        events: { onReady: () => res(yt), onStateChange: (e) => { if (e.data === 0) { learn(queue[pos], "done"); go(pos + 1); } }, onError: () => go(pos + 1) } });
+    };
+    const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+  });
+  return ytReady;
+}
+function go(i, why) {
+  if (why === "skip" && queue[pos] && Date.now() - started < 60000) learn(queue[pos], "skip");  // left within a minute
+  if (i >= queue.length) { if (!build()) return; i = 0; }
+  if (i < 0) i = 0;
+  pos = i; const q = queue[pos];
+  mem.played.push(q.key); keepLast(mem.played, 200); saveMem();
+  started = Date.now();
+  if (yt) yt.loadVideoById(q.vid);
+  renderQueue();
+}
+
+$("play").addEventListener("click", async () => {
+  $("play").disabled = true;
+  await loadData();
+  if (build()) {
+    $("player").classList.add("on");
+    await ensureYT();
+    go(0);
+  }
+  $("play").disabled = false;
+  $("play").textContent = "↻ নতুন তালিকা · New mix";
+});
+$("next").addEventListener("click", () => go(pos + 1, "skip"));
+$("prev").addEventListener("click", () => go(pos - 1));
+$("toggle").addEventListener("click", () => { if (!yt) return; yt.getPlayerState() === 1 ? yt.pauseVideo() : yt.playVideo(); });
+$("like").addEventListener("click", () => {
+  const q = queue[pos]; if (!q) return;
+  const i = mem.liked.indexOf(q.key);
+  if (i >= 0) mem.liked.splice(i, 1); else { mem.liked.push(q.key); learn(q, "like"); }
+  saveMem(); renderQueue();
+});
+$("forget").addEventListener("click", () => {
+  if (!confirm("রেডিও যা শিখেছে সব মুছে দেব?")) return;
+  mem = { mood: {}, src: {}, liked: [], skipped: [], played: [] }; saveMem();
+  mood = guessMood(); renderGuess();
+});
+</script>
+</body>
+</html>
