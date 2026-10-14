@@ -102,7 +102,10 @@ h1 small{display:block;font-family:var(--en);font-size:.95rem;color:var(--soft);
 .mood::after{content:"";position:absolute;inset:0;background:url(img/seven-figures.jpg) center/cover;mix-blend-mode:luminosity;opacity:.12;pointer-events:none}
 .mood b{font-family:var(--bn);font-weight:400;font-size:1.25rem;line-height:1.1;position:relative}
 .mood span{font-family:var(--en);font-style:italic;font-size:.75rem;opacity:.85;position:relative}
-.mood[aria-pressed="true"]{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--c)}
+.mood{transition:opacity .2s,transform .2s}
+.mood[aria-pressed="true"]{box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--c);transform:scale(1.03);z-index:1}
+.moods.picked .mood:not([aria-pressed="true"]):not(.more){opacity:.45}
+.moods.picked .mood:not([aria-pressed="true"]):not(.more):hover{opacity:.8}
 .mood[aria-pressed="true"]::before{content:"✓";position:absolute;top:8px;right:10px;font-size:.85rem;opacity:.9}
 .mood.guess-mark::before{content:"আজকের";font-family:var(--ui);position:absolute;top:8px;right:10px;font-size:.68rem;opacity:.85}
 .mood[aria-pressed="true"].guess-mark::before{content:"✓ আজকের"}
@@ -166,8 +169,8 @@ h1 small{display:block;font-family:var(--en);font-size:.95rem;color:var(--soft);
 .foot svg{width:120px;height:28px;color:var(--clay);opacity:.6}
 
 @media (min-width:820px){
-  .radio{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"head queue" "stage queue" "now queue" "controls queue" "status queue" "moods queue" "sources queue"}
-  .radio-head{grid-area:head}.stage{grid-area:stage}.now{grid-area:now}.controls{grid-area:controls}.status{grid-area:status}.moods{grid-area:moods;padding-bottom:0}.sources{grid-area:sources;padding-bottom:18px}
+  .radio{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"head queue" "moods queue" "sources queue" "stage queue" "now queue" "controls queue" "status queue"}
+  .radio-head{grid-area:head}.stage{grid-area:stage}.now{grid-area:now}.controls{grid-area:controls}.status{grid-area:status}.moods{grid-area:moods;padding-bottom:0}.sources{grid-area:sources}.status{padding-bottom:18px}
   .queue-wrap{grid-area:queue;border-left:1px solid var(--line);padding:18px}
   .queue{max-height:none}
   .rooms{grid-template-columns:repeat(3,1fr)}
@@ -212,6 +215,13 @@ h1 small{display:block;font-family:var(--en);font-size:.95rem;color:var(--soft);
       <div class="eyebrow">আজকের সুর · Mood radio</div>
       <p class="guess" id="guess"></p>
     </div>
+    <div class="moods" id="moods" role="group" aria-label="ভাব · Mood"></div>
+    <div class="sources" id="sources" role="group" aria-label="উৎস · Sources">
+      <span class="lbl">কোন ঘর থেকে:</span>
+      <button class="src" type="button" data-src="tagore" aria-pressed="true" style="--c:var(--tagore)"><i></i>রবীন্দ্রসঙ্গীত</button>
+      <button class="src" type="button" data-src="raag" aria-pressed="true" style="--c:var(--raag)"><i></i>রাগ</button>
+      <button class="src" type="button" data-src="piano" aria-pressed="true" style="--c:var(--piano)"><i></i>পিয়ানো</button>
+    </div>
     <div class="stage">
       <div id="yt"></div>
       <div class="cover">
@@ -228,13 +238,6 @@ h1 small{display:block;font-family:var(--en);font-size:.95rem;color:var(--soft);
       <a class="ctl" id="open" href="#" target="_blank" rel="noopener">↗<small>সাইটে</small></a>
     </div>
     <div class="status" id="status" aria-live="polite"></div>
-    <div class="moods" id="moods" role="group" aria-label="ভাব · Mood"></div>
-    <div class="sources" id="sources" role="group" aria-label="উৎস · Sources">
-      <span class="lbl">কোন ঘর থেকে:</span>
-      <button class="src" type="button" data-src="tagore" aria-pressed="true" style="--c:var(--tagore)"><i></i>রবীন্দ্রসঙ্গীত</button>
-      <button class="src" type="button" data-src="raag" aria-pressed="true" style="--c:var(--raag)"><i></i>রাগ</button>
-      <button class="src" type="button" data-src="piano" aria-pressed="true" style="--c:var(--piano)"><i></i>পিয়ানো</button>
-    </div>
     <div class="queue-wrap">
       <div class="queue-head"><h3>এর পরে</h3><small id="qcount">Up next</small></div>
       <ol class="queue" id="queue" aria-label="Up next"></ol>
@@ -553,17 +556,20 @@ $("prahar-now").textContent = `প্রহর ${S.bn(ctx.prahar)} · এখন�
   $("scene").innerHTML = g;
 })();
 
+let picked = false;   // set once the listener chooses a mood
 const tagStyle = (src) => `--c:${S.SRC[src].c}`;
 const radio = S.createRadio({
   ytId: "yt",
   sources: () => [...document.querySelectorAll(".src[aria-pressed='true']")].map((b) => b.dataset.src),
   onStatus: (t) => { $("status").textContent = t; },
   onMood(mood, guessed) {
-    const m = S.MOODS[guessed];
-    $("guess").innerHTML = `এখন ${ctx.partBn}, ঋতু ${ctx.seasonBn} — আজ মনে হচ্ছে <b>${m.bn}</b>।<small>It's ${S.esc(ctx.partEn)} in ${S.esc(ctx.seasonEn.split(" · ")[0])} — feels like ${S.esc(m.en.toLowerCase())}. Or choose another:</small>`;
+    const m = S.MOODS[guessed], c = S.MOODS[mood];
+    if (picked) $("guess").innerHTML = `বাজছে: <b>${c.bn}</b><small>Now playing ${S.esc(c.en.toLowerCase())} · আজকের অনুমান ছিল ${m.bn}. Tap another mood to switch.</small>`;
+    else $("guess").innerHTML = `এখন ${ctx.partBn}, ঋতু ${ctx.seasonBn} — আজ মনে হচ্ছে <b>${m.bn}</b>।<small>It's ${S.esc(ctx.partEn)} in ${S.esc(ctx.seasonEn.split(" · ")[0])} — feels like ${S.esc(m.en.toLowerCase())}. Or choose another:</small>`;
     $("moods").innerHTML = Object.entries(S.MOODS).map(([k, x]) =>
       `<button class="mood m-${k} ${k === guessed ? "guess-mark" : ""}" type="button" data-m="${k}" aria-pressed="${k === mood}"><b>${x.bn}</b><span>${x.en} · ${x.hint}</span></button>`).join("") +
       `<button class="mood more" type="button" id="remix">↻ নতুন তালিকা<br><span>New mix</span></button>`;
+    $("moods").classList.toggle("picked", picked);
   },
   onQueue(queue, pos) {
     $("queue").innerHTML = queue.map((q, i) => `<li data-i="${i}" class="${i === pos ? "cur" : ""}" style="${tagStyle(q.src)}"><span class="n">${S.esc(S.SRC[q.src].short)}</span><span class="q"><div>${S.esc(q.title)}</div><small>${S.esc(q.sub)}</small></span><span class="d">${S.fmt(q.sec)}</span></li>`).join("");
@@ -579,10 +585,16 @@ const radio = S.createRadio({
   onPlaying(p) { $("toggle").innerHTML = p ? "⏸<small>থামাও</small>" : "▶<small>চালাও</small>"; },
   onStart() { $("radio").classList.add("on"); $("toggle").innerHTML = "⏸<small>থামাও</small>"; },
 });
-async function start() { $("play").disabled = true; try { await radio.play(); } finally { $("play").disabled = false; } }
+async function start() { $("play").disabled = true; try { return await radio.play(); } finally { $("play").disabled = false; } }
 $("moods").addEventListener("click", (e) => {
   if (e.target.closest("#remix")) { radio.started ? radio.rebuild() : start(); return; }
-  const b = e.target.closest(".mood[data-m]"); if (b) radio.setMood(b.dataset.m);
+  const b = e.target.closest(".mood[data-m]"); if (!b) return;
+  picked = true; radio.setMood(b.dataset.m);
+  (radio.started ? Promise.resolve(true) : start()).then(() => {
+    if (!radio.queue.length) return;
+    $("status").textContent = `${S.MOODS[radio.mood].bn} — ${S.bn(radio.queue.length)}টি সুর তৈরি`;
+    $("now").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+  });
 });
 $("sources").addEventListener("click", (e) => {
   const b = e.target.closest(".src"); if (!b) return;
