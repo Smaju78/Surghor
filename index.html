@@ -11,358 +11,594 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap">
+<script>
+// Theme chosen by the viewer (the ☾/☀ button), applied before paint to avoid a flash.
+try { const t = localStorage.getItem("surghor.theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch {}
+</script>
 <style>
 :root{
-  --bg:#f6f1e7; --card:#fffdf8; --ink:#2b2622; --soft:#6f655c; --line:#e3d9c9;
-  --clay:#b5695a; --raag:#7a5a9e; --piano:#3d6e86; --tagore:#b5695a; --focus:#2f6fd6;
+  --bg:#f3e9d6; --paper:#fbf6ec; --ink:#2a2320; --soft:#6b5f54; --line:#e2d5bf; --line2:#cdbfa5;
+  --clay:#b5695a; --clay-ink:#fff8f0;
+  --ochre:#c6922e; --indigo:#2f3f6e; --sienna:#a65a31; --sap:#5f7a3a; --crimson:#8e2f3c; --saffron:#c98a2a; --sage:#6d7f5a; --teal:#3f7f86;
+  --tagore:#a65a31; --raag:#5a2d82; --piano:#2f7a63;
+  --raag-bg:#3b2447; --raag-gold:#d9b254; --piano-bg:#faf7f0; --piano-ink:#1d1d1b;
+  --focus:#2f6fd6; --shadow:0 10px 30px rgba(90,60,20,.12);
   --bn:"Tiro Bangla","Hind Siliguri",serif; --ui:"Hind Siliguri",system-ui,sans-serif; --en:"Fraunces",Georgia,serif;
+  --sky-a:#f6d9b8; --sky-b:#f3e9d6; --orb:#fff6d8; --ground:#c9a86a; --ground2:#8f7c4e; --house:#2a2320;
+}
+:root[data-theme="dark"]{
+  --bg:#1e1916; --paper:#29231f; --ink:#f1e8d8; --soft:#b5a894; --line:#3b332d; --line2:#4d433b;
+  --clay:#d4897a; --clay-ink:#2a1a16; --tagore:#d08a5e; --raag:#b39ad6; --piano:#7fc2a6;
+  --raag-bg:#2a1a33; --piano-bg:#1f2422; --piano-ink:#efe9dc; --focus:#8ab4ff; --shadow:0 10px 30px rgba(0,0,0,.4);
+  --ochre:#d8a94a; --indigo:#7f90c4; --sienna:#c97a4c; --sap:#8ea65f; --crimson:#b85566; --saffron:#dca04a; --sage:#8f9f7d; --teal:#5fa3aa;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#1c1a18; --card:#262321; --ink:#efe8dc; --soft:#b2a798; --line:#3a3531; --clay:#d4897a; --raag:#b39ad6; --piano:#7fb3cc; --tagore:#d4897a; --focus:#8ab4ff;
+  --bg:#1e1916; --paper:#29231f; --ink:#f1e8d8; --soft:#b5a894; --line:#3b332d; --line2:#4d433b;
+  --clay:#d4897a; --clay-ink:#2a1a16; --tagore:#d08a5e; --raag:#b39ad6; --piano:#7fc2a6;
+  --raag-bg:#2a1a33; --piano-bg:#1f2422; --piano-ink:#efe9dc; --focus:#8ab4ff; --shadow:0 10px 30px rgba(0,0,0,.4);
+  --ochre:#d8a94a; --indigo:#7f90c4; --sienna:#c97a4c; --sap:#8ea65f; --crimson:#b85566; --saffron:#dca04a; --sage:#8f9f7d; --teal:#5fa3aa;
 }}
+/* the sky band: gradient by the hour, ground by the season */
+:root[data-part="dawn"]{--sky-a:#f4c9b0;--sky-b:#f9e6c9;--orb:#ffe1b0} :root[data-part="morning"]{--sky-a:#cfe0ea;--sky-b:#f3e9d6;--orb:#fff3c4}
+:root[data-part="noon"]{--sky-a:#bcd7e6;--sky-b:#f1e3b4;--orb:#fff8d6} :root[data-part="afternoon"]{--sky-a:#f0c48a;--sky-b:#f3e9d6;--orb:#ffe7a8}
+:root[data-part="evening"]{--sky-a:#c9a0b6;--sky-b:#f0d5c0;--orb:#fff0cf} :root[data-part="night"]{--sky-a:#3a4668;--sky-b:#6f6a86;--orb:#f8f2dc}
+:root[data-season="Grishma"]{--ground:#d8b45c;--ground2:#a8782c} :root[data-season="Barsha"]{--ground:#5f8a4a;--ground2:#3b5e2c}
+:root[data-season="Sharat"]{--ground:#b9c48f;--ground2:#7e8b55} :root[data-season="Hemanta"]{--ground:#d2a556;--ground2:#9b6e2c}
+:root[data-season="Sheet"]{--ground:#e3c440;--ground2:#9c8428} :root[data-season="Basanta"]{--ground:#c98a3c;--ground2:#8a4d20}
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5;overflow-x:hidden}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
-.wrap{max-width:980px;margin:0 auto;padding:24px 16px 120px}
-header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
-h1{font-family:var(--bn);font-weight:400;font-size:2.2rem;margin:0}
-h1 small{font-family:var(--en);font-size:1rem;color:var(--soft);margin-left:8px}
-.today{color:var(--soft);font-size:.95rem}
-h2{font-family:var(--bn);font-weight:400;font-size:1.4rem;margin:36px 0 12px}
-h2 small{font-family:var(--en);font-size:.9rem;color:var(--soft);margin-left:6px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px 48px}
 
-.sites{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:22px}
-.site{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:18px}
-.site:hover{border-color:var(--c)}
-.site b{font-family:var(--bn);font-weight:400;font-size:1.5rem;display:block}
-.site i{font-family:var(--en);font-style:normal;color:var(--c);font-size:.95rem}
-.site p{margin:8px 0 0;color:var(--soft);font-size:.92rem}
+.sky{height:120px;background:linear-gradient(180deg,var(--sky-a),var(--sky-b));position:relative;overflow:hidden}
+.sky svg.scene{position:absolute;inset:0;width:100%;height:100%}
+.sky .alpona{position:absolute;right:14px;bottom:-26px;width:120px;height:120px;color:var(--clay);opacity:.5}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px;position:relative}
+.brand{display:flex;align-items:flex-end;gap:10px}
+.brand .mark{width:56px;height:56px;border-radius:50%;background:var(--paper);border:1px solid var(--line2);display:grid;place-items:center;box-shadow:var(--shadow)}
+.brand .mark svg{width:40px;height:40px;color:var(--clay)}
+h1{font-family:var(--bn);font-weight:400;font-size:2.4rem;margin:0;line-height:1.05}
+h1 small{display:block;font-family:var(--en);font-size:.95rem;color:var(--soft);font-style:italic;letter-spacing:.02em}
+.today{text-align:right;color:var(--soft);font-size:.95rem;line-height:1.3}
+.today b{display:block;font-family:var(--bn);font-weight:400;font-size:1.35rem;color:var(--ink)}
+.today small{font-family:var(--en);font-style:italic}
 
-.radio{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
-.guess{margin:0 0 14px;font-size:1.02rem}
-.guess b{font-family:var(--bn);font-weight:400;font-size:1.15rem}
-.moods{display:flex;flex-wrap:wrap;gap:8px}
-.mood{font:inherit;cursor:pointer;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
-.mood span{color:var(--soft);font-size:.85rem;margin-left:4px}
-.mood[aria-pressed="true"]{background:var(--clay);border-color:var(--clay);color:#fff}
-.mood[aria-pressed="true"] span{color:#fff}
-.mix{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;color:var(--soft);font-size:.92rem}
-.mix label{display:flex;align-items:center;gap:6px;cursor:pointer}
-.btn{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:10px 20px;background:var(--ink);color:var(--bg);font-weight:600}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
-.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
-.status{color:var(--soft);font-size:.9rem}
+.radio{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.radio-head{padding:18px 18px 0}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);font-weight:600}
+.guess{font-family:var(--bn);font-size:1.45rem;line-height:1.35;margin:6px 0 0}
+.guess b{font-weight:400;color:var(--clay);border-bottom:2px solid color-mix(in srgb,var(--clay) 40%,transparent)}
+.guess small{display:block;font-family:var(--en);font-style:italic;font-size:.95rem;color:var(--soft);margin-top:2px}
 
-.player{display:none;margin-top:18px;gap:18px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
-.player.on{display:grid}
-.video{position:relative;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
-.video > div,.video iframe{position:absolute;inset:0;width:100%;height:100%}
-.now{margin-top:10px}
-.tag{display:inline-block;font-size:.78rem;font-weight:600;color:#fff;background:var(--c);border-radius:999px;padding:1px 9px}
-.now .t{font-family:var(--bn);font-size:1.2rem;margin:4px 0 0}
-.now .s{color:var(--soft);font-size:.9rem}
-.controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.queue{list-style:none;margin:0;padding:0;max-height:420px;overflow:auto;border-top:1px solid var(--line)}
-.queue li{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px solid var(--line);cursor:pointer}
-.queue li.cur{background:color-mix(in srgb,var(--clay) 10%,transparent)}
-.queue li .dot{width:8px;height:8px;border-radius:50%;background:var(--c);margin-top:8px;flex:none}
+.stage{position:relative;margin:16px 18px 0;aspect-ratio:16/9;background:#1a1512;border-radius:14px;overflow:hidden;border:1px solid var(--line2)}
+.stage > #yt,.stage iframe{position:absolute;inset:0;width:100%;height:100%}
+.cover{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;color:#fff6e8;
+  background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(28,18,12,.55)),url(img/landscape-by-1937.jpg) center/cover}
+.cover .cap{font-family:var(--en);font-style:italic;font-size:.85rem;opacity:.9}
+.cover .big{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;background:var(--clay);color:#fff;border:0;display:grid;place-items:center;font-size:2rem;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.cover .big:disabled{opacity:.6}
+.radio.on .cover{display:none}
+
+.now{display:flex;gap:12px;align-items:flex-start;padding:14px 18px 0;min-height:64px}
+.now .tag{flex:none;margin-top:6px;font-size:.78rem;font-weight:600;color:#fff;background:var(--c);border-radius:999px;padding:2px 10px}
+.now .t{font-family:var(--bn);font-size:1.35rem;line-height:1.25}
+.now .s{color:var(--soft);font-size:.92rem}
+.now.empty{color:var(--soft);font-style:italic;font-family:var(--en)}
+.controls{display:grid;grid-template-columns:1fr 1fr 1.4fr 1fr 1fr;gap:8px;padding:12px 18px 0;align-items:center}
+.ctl{height:52px;border-radius:14px;border:1px solid var(--line2);background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;text-decoration:none}
+.ctl small{font-size:.68rem;color:var(--soft);margin-top:3px}
+.ctl.main{background:var(--clay);color:var(--clay-ink);border-color:var(--clay);font-size:1.5rem;height:60px}
+.ctl.main small{color:var(--clay-ink);opacity:.85}
+.ctl[aria-pressed="true"]{color:var(--crimson);border-color:var(--crimson)}
+.status{padding:8px 18px 0;color:var(--soft);font-size:.88rem;min-height:1.4em}
+
+.moods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px 18px 0}
+.mood{position:relative;border:0;border-radius:14px;padding:12px 10px 10px;text-align:left;color:#fff;background:var(--c);min-height:74px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.mood::after{content:"";position:absolute;inset:0;background:url(img/seven-figures.jpg) center/cover;mix-blend-mode:luminosity;opacity:.12;pointer-events:none}
+.mood b{font-family:var(--bn);font-weight:400;font-size:1.25rem;line-height:1.1;position:relative}
+.mood span{font-family:var(--en);font-style:italic;font-size:.75rem;opacity:.85;position:relative}
+.mood[aria-pressed="true"]{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--c)}
+.mood[aria-pressed="true"]::before{content:"✓";position:absolute;top:8px;right:10px;font-size:.85rem;opacity:.9}
+.mood.guess-mark::before{content:"আজকের";font-family:var(--ui);position:absolute;top:8px;right:10px;font-size:.68rem;opacity:.85}
+.mood[aria-pressed="true"].guess-mark::before{content:"✓ আজকের"}
+.mood.m-calm{--c:var(--sage)} .mood.m-bhakti{--c:var(--saffron)} .mood.m-prem{--c:var(--crimson)} .mood.m-viraha{--c:var(--indigo)}
+.mood.m-ananda{--c:var(--ochre)} .mood.m-prakriti{--c:var(--sap)} .mood.m-sahas{--c:var(--sienna)}
+.mood.more{--c:transparent;background:transparent;color:var(--soft);border:1px dashed var(--line2);box-shadow:none;justify-content:center;align-items:center;font-size:.85rem;text-align:center}
+.mood.more::after{display:none}
+
+.sources{display:flex;gap:8px;padding:14px 18px 0;flex-wrap:wrap;align-items:center}
+.sources .lbl{font-size:.85rem;color:var(--soft);margin-right:4px}
+.src{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:999px;padding:7px 14px 7px 10px;background:var(--bg);font-size:.95rem}
+.src i{width:12px;height:12px;border-radius:50%;background:var(--c);display:inline-block;box-shadow:0 0 0 2px var(--paper)}
+.src[aria-pressed="false"]{opacity:.5;text-decoration:line-through}
+.src[aria-pressed="true"]{border-color:var(--c)}
+
+.queue-wrap{padding:16px 18px 18px}
+.queue-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line2);padding-bottom:6px}
+.queue-head h3{margin:0;font-family:var(--bn);font-weight:400;font-size:1.15rem}
+.queue-head small{color:var(--soft);font-family:var(--en);font-style:italic}
+.queue{list-style:none;margin:0;padding:0;max-height:380px;overflow:auto}
+.queue:empty::before{content:"বাজাও টিপলে ২৪টা সুরের তালিকা তৈরি হবে — তিন ঘর থেকে মিলিয়ে।";display:block;color:var(--soft);padding:12px 0;font-size:.92rem}
+.queue li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px dotted var(--line2);cursor:pointer;border-radius:8px}
+.queue li:hover{background:color-mix(in srgb,var(--c) 8%,transparent)}
+.queue li.cur{background:color-mix(in srgb,var(--c) 14%,transparent)}
+.queue li .n{width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:600}
 .queue li .q{min-width:0}
-.queue li .q div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.queue li .q small{color:var(--soft)}
-.note{color:var(--soft);font-size:.85rem;margin-top:24px}
-@media (max-width:720px){.player{grid-template-columns:1fr} h1{font-size:1.8rem}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.queue li .q div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--bn);font-size:1.02rem}
+.queue li .q small{color:var(--soft);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue li .d{color:var(--soft);font-size:.8rem}
+
+.rooms-head{margin:34px 0 10px;display:flex;align-items:baseline;gap:10px}
+.rooms-head h2{font-family:var(--bn);font-weight:400;font-size:1.5rem;margin:0}
+.rooms-head small{font-family:var(--en);font-style:italic;color:var(--soft)}
+.rooms{display:grid;gap:14px}
+.room{display:block;text-decoration:none;border-radius:18px;padding:20px 18px 18px;min-height:190px;position:relative;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.room .k{font-family:var(--en);font-style:italic;font-size:.85rem;opacity:.8}
+.room b{display:block;font-family:var(--bn);font-weight:400;font-size:2rem;line-height:1.1;margin-top:2px;position:relative}
+.room p{margin:8px 0 0;font-size:.92rem;max-width:34ch;line-height:1.45;position:relative}
+.room .go{position:absolute;right:16px;bottom:14px;font-size:.85rem;font-weight:600;letter-spacing:.04em}
+.room .count{display:inline-block;margin-top:10px;font-size:.78rem;border:1px solid currentColor;border-radius:999px;padding:1px 10px;opacity:.85;position:relative}
+.room.tagore{background:var(--paper);color:var(--ink);border-top:4px solid var(--tagore)}
+.room.tagore::before{content:"";position:absolute;inset:0;background:url(img/landscape-by-1937.jpg) right center/cover;opacity:.18;mix-blend-mode:multiply;mask:linear-gradient(90deg,transparent 30%,#000);-webkit-mask:linear-gradient(90deg,transparent 30%,#000)}
+:root[data-theme="dark"] .room.tagore::before{mix-blend-mode:screen;opacity:.22}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .room.tagore::before{mix-blend-mode:screen;opacity:.22}}
+.room.tagore .k{color:var(--tagore)}
+.room.tagore .alp{position:absolute;right:14px;top:12px;width:54px;height:54px;color:var(--tagore);opacity:.7}
+.room.raag{background:var(--raag-bg);color:#f3e9d6;border-top:4px solid var(--raag-gold)}
+.room.raag .k{color:var(--raag-gold)} .room.raag .go{color:var(--raag-gold)}
+.room.raag .mandala{position:absolute;right:10px;top:10px;width:130px;height:130px;opacity:.9}
+.room.raag::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,var(--raag-gold),transparent);opacity:.6}
+.room.piano{background:var(--piano-bg);color:var(--piano-ink);border-top:4px solid var(--piano)}
+.room.piano .k{color:var(--piano)} .room.piano .go{color:var(--piano)}
+.room.piano b{font-family:var(--en);font-weight:600;font-size:1.9rem}
+.room.piano .keys{position:absolute;left:0;right:0;top:0;height:16px;
+  background:repeating-linear-gradient(90deg,transparent 0 15px,var(--piano-ink) 15px 21px,transparent 21px 36px,var(--piano-ink) 36px 42px,transparent 42px 78px,var(--piano-ink) 78px 84px,transparent 84px 99px,var(--piano-ink) 99px 105px,transparent 105px 120px,var(--piano-ink) 120px 126px,transparent 126px 147px);opacity:.9}
+.room.piano .keys::after{content:"";position:absolute;left:0;right:0;bottom:0;border-bottom:1px solid var(--piano-ink)}
+
+.note{color:var(--soft);font-size:.85rem;margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.ghost{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:5px 14px;font-size:.85rem}
+.foot{margin-top:28px;display:flex;justify-content:center}
+.foot svg{width:120px;height:28px;color:var(--clay);opacity:.6}
+
+@media (min-width:820px){
+  .radio{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"head queue" "stage queue" "now queue" "controls queue" "status queue" "moods queue" "sources queue"}
+  .radio-head{grid-area:head}.stage{grid-area:stage}.now{grid-area:now}.controls{grid-area:controls}.status{grid-area:status}.moods{grid-area:moods;padding-bottom:0}.sources{grid-area:sources;padding-bottom:18px}
+  .queue-wrap{grid-area:queue;border-left:1px solid var(--line);padding:18px}
+  .queue{max-height:none}
+  .rooms{grid-template-columns:repeat(3,1fr)}
+  .room{min-height:230px}
+  h1{font-size:3rem}
+  .sky{height:170px}
+}
+@media (max-width:420px){.moods{grid-template-columns:repeat(2,1fr)} .mood{min-height:68px}}
+@media (prefers-reduced-motion:no-preference){.mood,.ctl,.room{transition:transform .15s ease,box-shadow .15s ease} .mood:active,.ctl:active{transform:scale(.97)} .room:hover{transform:translateY(-2px)}
+  .scene .cloud{animation:drift 90s linear infinite} @keyframes drift{from{transform:translateX(0)}to{transform:translateX(80px)}}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="alpona" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="50" cy="50" r="6"/>
+    <g id="pet"><path d="M50 44 C44 34 44 20 50 12 C56 20 56 34 50 44 Z"/><path d="M50 40 C47 32 47 24 50 18"/><circle cx="50" cy="8" r="1.6" fill="currentColor" stroke="none"/></g>
+    <use href="#pet" transform="rotate(45 50 50)"/><use href="#pet" transform="rotate(90 50 50)"/><use href="#pet" transform="rotate(135 50 50)"/>
+    <use href="#pet" transform="rotate(180 50 50)"/><use href="#pet" transform="rotate(225 50 50)"/><use href="#pet" transform="rotate(270 50 50)"/><use href="#pet" transform="rotate(315 50 50)"/>
+    <circle cx="50" cy="50" r="46" stroke-dasharray="1 5"/>
+  </symbol>
+  <symbol id="vine" viewBox="0 0 240 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+    <path d="M4 20 C40 2 60 38 100 20 S160 2 200 20 S230 30 236 20"/>
+    <path d="M60 20 c-6 -10 2 -16 8 -8 M140 20 c6 -10 -2 -16 -8 -8 M100 20 c0 -8 6 -10 10 -6"/>
+    <circle cx="4" cy="20" r="2" fill="currentColor"/><circle cx="236" cy="20" r="2" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<div class="sky" aria-hidden="true"><svg class="scene" id="scene" viewBox="0 0 800 170" preserveAspectRatio="xMidYMax slice"></svg><svg class="alpona"><use href="#alpona"/></svg></div>
 <div class="wrap">
   <header>
-    <h1>সুরঘর<small>Surghor</small></h1>
+    <div class="brand">
+      <span class="mark" aria-hidden="true"><svg><use href="#alpona"/></svg></span>
+      <h1>সুরঘর<small>Surghor · the house of three rooms</small></h1>
+    </div>
     <div class="today" id="today"></div>
   </header>
 
-  <div class="sites">
-    <a class="site" style="--c:var(--tagore)" href="/Anandadhara/">
-      <b>আনন্দধারা</b><i>Anandadhara · Rabindrasangeet</i>
-      <p>রবীন্দ্রনাথের ২,১৫৬টি গান — কথা, পর্যায়, রাগ, তাল, ভাব আর সেরা রেকর্ডিং।</p>
-    </a>
-    <a class="site" style="--c:var(--raag)" href="/Raagmala/">
-      <b>রাগমালা</b><i>Raagmala · Hindustani raags</i>
-      <p>৮২টি রাগ, প্রহর আর ভাব অনুযায়ী — খেয়াল, ধ্রুপদ, ঠুমরি, শিল্পী আর ঘরানা।</p>
-    </a>
-    <a class="site" style="--c:var(--piano)" href="/Piano/">
-      <b>পিয়ানো</b><i>Piano · Classical piano</i>
-      <p>বাখ থেকে বিংশ শতক — ৯৯৯টি রচনা, সুরকার, পিয়ানোবাদক আর মেজাজ।</p>
-    </a>
-  </div>
-
-  <h2>আজকের সুর<small>Mood radio</small></h2>
-  <section class="radio" aria-label="Mood radio">
-    <p class="guess" id="guess"></p>
-    <div class="moods" id="moods" role="group" aria-label="Mood"></div>
-    <div class="mix" role="group" aria-label="Sources">
-      <label><input type="checkbox" data-src="tagore" checked> রবীন্দ্রসঙ্গীত</label>
-      <label><input type="checkbox" data-src="raag" checked> রাগ</label>
-      <label><input type="checkbox" data-src="piano" checked> পিয়ানো</label>
+  <section class="radio" id="radio" aria-label="Mood radio · আজকের সুর">
+    <div class="radio-head">
+      <div class="eyebrow">আজকের সুর · Mood radio</div>
+      <p class="guess" id="guess"></p>
     </div>
-    <div class="acts">
-      <button class="btn" id="play" type="button">▶ বাজাও · Play</button>
-      <span class="status" id="status" aria-live="polite"></span>
-    </div>
-
-    <div class="player" id="player">
-      <div>
-        <div class="video"><div id="yt"></div></div>
-        <div class="now" id="now"></div>
-        <div class="controls">
-          <button class="btn ghost" id="prev" type="button">⏮ আগের</button>
-          <button class="btn ghost" id="toggle" type="button">⏯ থামাও/চালাও</button>
-          <button class="btn ghost" id="next" type="button" title="Skip — the radio learns from this">⏭ পরের</button>
-          <button class="btn ghost" id="like" type="button" aria-pressed="false">♡ ভালো লাগল</button>
-          <a class="btn ghost" id="open" href="#" style="text-decoration:none">সাইটে খোলো ↗</a>
-        </div>
+    <div class="stage">
+      <div id="yt"></div>
+      <div class="cover">
+        <button class="big" id="play" type="button" aria-label="বাজাও · Play">▶</button>
+        <span class="cap">Landscape, Rabindranath Tagore, 1937</span>
       </div>
+    </div>
+    <div class="now empty" id="now">এখনও কিছু বাজছে না — ▶ টিপুন।</div>
+    <div class="controls" role="group" aria-label="Playback">
+      <button class="ctl" id="prev" type="button">⏮<small>আগের</small></button>
+      <button class="ctl" id="like" type="button" aria-pressed="false">♡<small>ভালো লাগল</small></button>
+      <button class="ctl main" id="toggle" type="button" aria-label="বাজাও / থামাও">▶<small>বাজাও</small></button>
+      <button class="ctl" id="next" type="button" title="Skip — the radio learns from this">⏭<small>পরের</small></button>
+      <a class="ctl" id="open" href="#" target="_blank" rel="noopener">↗<small>সাইটে</small></a>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+    <div class="moods" id="moods" role="group" aria-label="ভাব · Mood"></div>
+    <div class="sources" id="sources" role="group" aria-label="উৎস · Sources">
+      <span class="lbl">কোন ঘর থেকে:</span>
+      <button class="src" type="button" data-src="tagore" aria-pressed="true" style="--c:var(--tagore)"><i></i>রবীন্দ্রসঙ্গীত</button>
+      <button class="src" type="button" data-src="raag" aria-pressed="true" style="--c:var(--raag)"><i></i>রাগ</button>
+      <button class="src" type="button" data-src="piano" aria-pressed="true" style="--c:var(--piano)"><i></i>পিয়ানো</button>
+    </div>
+    <div class="queue-wrap">
+      <div class="queue-head"><h3>এর পরে</h3><small id="qcount">Up next</small></div>
       <ol class="queue" id="queue" aria-label="Up next"></ol>
     </div>
   </section>
 
-  <p class="note">রেডিও আপনার পছন্দ শেখে: কোনটা শেষ পর্যন্ত শুনলেন, কোনটা বাদ দিলেন, কোনটা ভালো লাগল। সব তথ্য শুধু এই ব্রাউজারে থাকে।
-    <button class="btn ghost" id="forget" type="button" style="padding:4px 12px;font-size:.85rem">ভুলে যাও · Reset</button></p>
+  <div class="rooms-head"><h2>তিনটি ঘর</h2><small>Three rooms · three sites</small></div>
+  <div class="rooms">
+    <a class="room tagore" href="/Anandadhara/">
+      <svg class="alp" aria-hidden="true"><use href="#alpona"/></svg>
+      <span class="k">Anandadhara · Rabindrasangeet</span>
+      <b>আনন্দধারা</b>
+      <p>রবীন্দ্রনাথের গান — কথা, পর্যায়, রাগ, তাল, ভাব আর সেরা রেকর্ডিং।</p>
+      <span class="count">২,১৫৬টি গান</span>
+      <span class="go">ঘরে ঢুকুন →</span>
+    </a>
+    <a class="room raag" href="/Raagmala/">
+      <svg class="mandala" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="#d9b254" stroke-width=".8">
+        <circle cx="50" cy="50" r="40" stroke-dasharray="2 3"/>
+        <polygon points="50,10 81.2,24.8 89.3,58.6 67.5,85.4 32.5,85.4 10.7,58.6 18.8,24.8" opacity=".8"/>
+        <g fill="#d9b254" stroke="none"><circle cx="50" cy="10" r="2.6"/><circle cx="81.2" cy="24.8" r="2"/><circle cx="89.3" cy="58.6" r="2"/><circle cx="67.5" cy="85.4" r="2"/><circle cx="32.5" cy="85.4" r="2"/><circle cx="10.7" cy="58.6" r="2"/><circle cx="18.8" cy="24.8" r="2"/></g>
+        <g fill="#f3e9d6" stroke="none" font-size="7" font-family="Hind Siliguri" text-anchor="middle"><text x="50" y="4">সা</text><text x="90" y="24">রে</text><text x="97" y="63">গ</text><text x="70" y="96">ম</text><text x="30" y="96">প</text><text x="3" y="63">ধ</text><text x="10" y="24">নি</text></g>
+        <text x="50" y="55" fill="#f3e9d6" font-size="16" font-family="Tiro Bangla" text-anchor="middle" stroke="none">রা</text>
+      </svg>
+      <span class="k">Raagmala · Hindustani raags</span>
+      <b>রাগমালা</b>
+      <p>৮২টি রাগ, প্রহর আর ভাব অনুযায়ী — খেয়াল, ধ্রুপদ, ঠুমরি, শিল্পী আর ঘরানা।</p>
+      <span class="count" id="prahar-now">এই প্রহরের রাগ</span>
+      <span class="go">ঘরে ঢুকুন →</span>
+    </a>
+    <a class="room piano" href="/Piano/">
+      <span class="keys" aria-hidden="true"></span>
+      <span class="k" style="margin-top:14px;display:block">Piano · classical piano</span>
+      <b>Piano <span style="font-family:var(--bn);font-weight:400">পিয়ানো</span></b>
+      <p>বাখ থেকে বিংশ শতক — সুরকার, পিয়ানোবাদক আর মেজাজ।</p>
+      <span class="count">999 works</span>
+      <span class="go">ঘরে ঢুকুন →</span>
+    </a>
+  </div>
+
+  <p class="note">রেডিও আপনার পছন্দ শেখে: কোনটা শেষ পর্যন্ত শুনলেন, কোনটা বাদ দিলেন, কোনটা ভালো লাগল। সব তথ্য শুধু এই ফোনে থাকে।
+    <button class="ghost" id="forget" type="button">ভুলে যাও · Reset</button>
+    <button class="ghost" id="theme" type="button" aria-label="Toggle dark mode">☾ / ☀</button></p>
+  <div class="foot" aria-hidden="true"><svg><use href="#vine"/></svg></div>
 </div>
 
 <script>
-"use strict";
-/* ---------- Shared moods: each maps to the moods each site already uses ---------- */
-const MOODS = {
-  calm:    { bn: "শান্ত",   en: "Calm",     tagore: ["shanti"],                    raag: ["shanta"],   piano: ["Calm", "Contemplative"] },
-  bhakti:  { bn: "ভক্তি",   en: "Devotion", tagore: ["bhakti"],                    raag: ["bhakti"],   piano: ["Contemplative"] },
-  prem:    { bn: "প্রেম",   en: "Love",     tagore: ["prem"],                      raag: ["shringar"], piano: ["Tender", "Passionate"] },
-  viraha:  { bn: "বিরহ",   en: "Longing",  tagore: ["viraha", "bishad", "smriti"], raag: ["karuna"],   piano: ["Melancholy"] },
-  ananda:  { bn: "আনন্দ",  en: "Joy",      tagore: ["ananda", "utsav", "kautuk"], raag: ["ullas"],    piano: ["Joyful", "Playful", "Dancing"] },
-  prakriti:{ bn: "প্রকৃতি", en: "Nature",   tagore: ["prakriti-bhava"],            raag: ["shanta"],   piano: ["Dreamy"] },
-  sahas:   { bn: "সাহস",   en: "Courage",  tagore: ["sahas", "deshprem"],         raag: ["gambhir"],  piano: ["Heroic", "Stormy"] },
-};
-const SRC = {
-  tagore: { bn: "রবীন্দ্রসঙ্গীত", c: "var(--tagore)", url: "/Anandadhara/", data: "/Anandadhara/songs.json" },
-  raag:   { bn: "রাগ",           c: "var(--raag)",   url: "/Raagmala/",    data: "/Raagmala/raagmala.json" },
-  piano:  { bn: "পিয়ানো",         c: "var(--piano)",  url: "/Piano/",       data: "/Piano/works.json" },
-};
+/* Surghor radio engine: moods, time/season cut-offs, learning (localStorage "surghor.v1"),
+   queue building and the YouTube IFrame player. Rendering is done by the page via callbacks. */
+(function () {
+  "use strict";
 
-/* ---------- Time and season (same cut-offs as Anandadhara) ---------- */
-const SEASONS = { Grishma: "গ্রীষ্ম", Barsha: "বর্ষা", Sharat: "শরৎ", Hemanta: "হেমন্ত", Sheet: "শীত", Basanta: "বসন্ত" };
-function currentSeason(d = new Date()) {
-  const md = (d.getMonth() + 1) * 100 + d.getDate();
-  if (md >= 414 && md < 615) return "Grishma";
-  if (md >= 615 && md < 817) return "Barsha";
-  if (md >= 817 && md < 1018) return "Sharat";
-  if (md >= 1018 && md < 1216) return "Hemanta";
-  if (md >= 1216 || md < 213) return "Sheet";
-  return "Basanta";
-}
-// Raagmala's 8 prahars: 1 = 6–9 am … 7 = 0–3, 8 = 3–6.
-const prahar = (h) => h >= 6 ? Math.floor((h - 6) / 3) + 1 : (h < 3 ? 7 : 8);
-const PART = [[5, 9, "ভোর", "early morning", ["bhakti", "calm"]], [9, 12, "সকাল", "morning", ["ananda", "prakriti"]],
-  [12, 16, "দুপুর", "afternoon", ["prakriti", "calm"]], [16, 19, "বিকেল", "late afternoon", ["viraha", "prem"]],
-  [19, 22, "সন্ধ্যা", "evening", ["prem", "bhakti"]], [22, 29, "রাত", "night", ["calm", "viraha"]]];
-function dayPart(h) { const x = h < 5 ? h + 24 : h; return PART.find(([a, b]) => x >= a && x < b); }
+  /* ---------- Shared moods: each maps to the moods each site already uses ---------- */
+  const MOODS = {
+    calm:    { bn: "শান্ত",   en: "Calm",     hint: "ধীর, স্থির, স্নিগ্ধ",        tagore: ["shanti"],                    raag: ["shanta"],   piano: ["Calm", "Contemplative"] },
+    bhakti:  { bn: "ভক্তি",   en: "Devotion", hint: "প্রার্থনা, সমর্পণ",         tagore: ["bhakti"],                    raag: ["bhakti"],   piano: ["Contemplative"] },
+    prem:    { bn: "প্রেম",   en: "Love",     hint: "মিলন, কোমলতা",             tagore: ["prem"],                      raag: ["shringar"], piano: ["Tender", "Passionate"] },
+    viraha:  { bn: "বিরহ",   en: "Longing",  hint: "প্রতীক্ষা, দূরের জন",       tagore: ["viraha", "bishad", "smriti"], raag: ["karuna"],   piano: ["Melancholy"] },
+    ananda:  { bn: "আনন্দ",  en: "Joy",      hint: "উল্লাস, উৎসব",             tagore: ["ananda", "utsav", "kautuk"], raag: ["ullas"],    piano: ["Joyful", "Playful", "Dancing"] },
+    prakriti:{ bn: "প্রকৃতি", en: "Nature",   hint: "আকাশ, বৃষ্টি, ঋতু",         tagore: ["prakriti-bhava"],            raag: ["shanta"],   piano: ["Dreamy"] },
+    sahas:   { bn: "সাহস",   en: "Courage",  hint: "জাগরণ, দৃঢ়তা",             tagore: ["sahas", "deshprem"],         raag: ["gambhir"],  piano: ["Heroic", "Stormy"] },
+  };
+  const SRC = {
+    tagore: { bn: "রবীন্দ্রসঙ্গীত", short: "রবি", en: "Anandadhara", c: "var(--tagore)", url: "/Anandadhara/", data: "/Anandadhara/songs.json" },
+    raag:   { bn: "রাগ",           short: "রাগ", en: "Raagmala",    c: "var(--raag)",   url: "/Raagmala/",    data: "/Raagmala/raagmala.json" },
+    piano:  { bn: "পিয়ানো",         short: "পিয়ানো", en: "Piano",    c: "var(--piano)",  url: "/Piano/",       data: "/Piano/works.json" },
+  };
 
-/* ---------- What the radio has learned (this browser only) ---------- */
-const KEY = "surghor.v1";
-function loadMem() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
-let mem = Object.assign({ mood: {}, src: {}, liked: [], skipped: [], played: [] }, loadMem());
-function saveMem() { try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch {} }
-const bump = (obj, k, d) => { obj[k] = Math.max(-5, Math.min(10, (obj[k] || 0) + d)); };
-const keepLast = (arr, n) => arr.splice(0, Math.max(0, arr.length - n));
+  /* ---------- Time and season (same cut-offs as the live page / Anandadhara) ---------- */
+  const SEASONS = { Grishma: "গ্রীষ্ম", Barsha: "বর্ষা", Sharat: "শরৎ", Hemanta: "হেমন্ত", Sheet: "শীত", Basanta: "বসন্ত" };
+  const SEASON_EN = { Grishma: "Grishma · summer", Barsha: "Barsha · monsoon", Sharat: "Sharat · autumn", Hemanta: "Hemanta · late autumn", Sheet: "Sheet · winter", Basanta: "Basanta · spring" };
+  const now = () => new Date();
+  function currentSeason(d = now()) {
+    const md = (d.getMonth() + 1) * 100 + d.getDate();
+    if (md >= 414 && md < 615) return "Grishma";
+    if (md >= 615 && md < 817) return "Barsha";
+    if (md >= 817 && md < 1018) return "Sharat";
+    if (md >= 1018 && md < 1216) return "Hemanta";
+    if (md >= 1216 || md < 213) return "Sheet";
+    return "Basanta";
+  }
+  // Raagmala's 8 prahars: 1 = 6–9 am … 7 = 0–3, 8 = 3–6.
+  const prahar = (h) => h >= 6 ? Math.floor((h - 6) / 3) + 1 : (h < 3 ? 7 : 8);
+  const PART = [[5, 9, "ভোর", "early morning", ["bhakti", "calm"]], [9, 12, "সকাল", "morning", ["ananda", "prakriti"]],
+    [12, 16, "দুপুর", "afternoon", ["prakriti", "calm"]], [16, 19, "বিকেল", "late afternoon", ["viraha", "prem"]],
+    [19, 22, "সন্ধ্যা", "evening", ["prem", "bhakti"]], [22, 29, "রাত", "night", ["calm", "viraha"]]];
+  function dayPart(h) { const x = h < 5 ? h + 24 : h; return PART.find(([a, b]) => x >= a && x < b); }
+  const PART_KEY = { "ভোর": "dawn", "সকাল": "morning", "দুপুর": "noon", "বিকেল": "afternoon", "সন্ধ্যা": "evening", "রাত": "night" };
+  function context() {
+    const d = now(), part = dayPart(d.getHours()), season = currentSeason(d);
+    return { d, part, partBn: part[2], partEn: part[3], partKey: PART_KEY[part[2]], season, seasonBn: SEASONS[season], seasonEn: SEASON_EN[season], prahar: prahar(d.getHours()) };
+  }
 
-function guessMood() {
-  const now = new Date(), part = dayPart(now.getHours());
-  // Start from the time of day, then let what was liked or skipped at this time tip the balance.
-  const score = {};
-  Object.keys(MOODS).forEach((m) => { score[m] = (mem.mood[part[3] + ":" + m] || 0) * 0.6; });
-  score[part[4][0]] += 3; score[part[4][1]] += 2;
-  const s = currentSeason(now);
-  if (s === "Barsha" || s === "Basanta") score.prakriti += 1.5;
-  return Object.entries(score).sort((a, b) => b[1] - a[1])[0][0];
-}
+  /* ---------- Small helpers ---------- */
+  const bn = (n) => String(n).replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[d]);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const BN_MONTHS = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+  const dateBn = (d = now()) => `${bn(d.getDate())} ${BN_MONTHS[d.getMonth()]}`;
+  const dateEn = (d = now()) => d.toLocaleDateString("en-IN", { day: "numeric", month: "long" });
 
-/* ---------- UI ---------- */
-const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-let mood = guessMood();
-const now0 = new Date(), part0 = dayPart(now0.getHours()), season0 = currentSeason(now0);
-$("today").textContent = `${part0[2]} · ${SEASONS[season0]} · ${now0.toLocaleDateString("en-IN", { day: "numeric", month: "long" })}`;
-function renderGuess() {
-  $("guess").innerHTML = `এখন ${part0[2]}, ঋতু ${SEASONS[season0]}। আজ মনে হচ্ছে <b>${MOODS[mood].bn}</b> <span class="status">(${MOODS[mood].en})</span> — নাকি অন্য কিছু?`;
-  $("moods").innerHTML = Object.entries(MOODS).map(([k, m]) =>
-    `<button class="mood" type="button" data-m="${k}" aria-pressed="${k === mood}">${m.bn}<span>${m.en}</span></button>`).join("");
-}
-renderGuess();
-$("moods").addEventListener("click", (e) => {
-  const b = e.target.closest(".mood"); if (!b) return;
-  mood = b.dataset.m; renderGuess();
-  if (queue.length && build()) go(0);
-});
+  /* ---------- What the radio has learned (this browser only) ---------- */
+  const KEY = "surghor.v1";
+  function loadMem() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+  let mem = Object.assign({ mood: {}, src: {}, liked: [], skipped: [], played: [] }, loadMem());
+  function saveMem() { try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch {} }
+  const bump = (obj, k, d) => { obj[k] = Math.max(-5, Math.min(10, (obj[k] || 0) + d)); };
+  const keepLast = (arr, n) => arr.splice(0, Math.max(0, arr.length - n));
 
-/* ---------- Data: loaded only when the radio starts ---------- */
-let data = null;
-async function loadData() {
-  if (data) return data;
-  $("status").textContent = "গান আনা হচ্ছে…";
-  const get = (u) => fetch(u).then((r) => { if (!r.ok) throw new Error(u); return r.json(); }).catch(() => null);
-  const [a, r, p] = await Promise.all([get(SRC.tagore.data), get(SRC.raag.data), get(SRC.piano.data)]);
-  data = { tagore: a, raag: r, piano: p };
-  const missing = Object.keys(data).filter((k) => !data[k]).map((k) => SRC[k].bn);
-  $("status").textContent = missing.length ? `আনা গেল না: ${missing.join(", ")}` : "";
-  return data;
-}
+  function guessMood() {
+    const d = now(), part = dayPart(d.getHours());
+    const score = {};
+    Object.keys(MOODS).forEach((m) => { score[m] = (mem.mood[part[3] + ":" + m] || 0) * 0.6; });
+    score[part[4][0]] += 3; score[part[4][1]] += 2;
+    const s = currentSeason(d);
+    if (s === "Barsha" || s === "Basanta") score.prakriti += 1.5;
+    return Object.entries(score).sort((a, b) => b[1] - a[1])[0][0];
+  }
 
-const pickVideo = (vs) => vs && vs.length ? vs[Math.floor(Math.random() * Math.min(vs.length, 3))] : null;
-function candidates(src, m) {
-  const want = new Set(MOODS[m][src]), d = data[src], ph = prahar(new Date().getHours()), season = currentSeason();
-  const out = [];
-  if (src === "tagore" && d) {
-    for (const s of d.songs) {
-      if (!s.videos || !s.videos.length || !(s.moods || []).some((x) => want.has(x))) continue;
-      const v = pickVideo(s.videos);
-      let w = 1 + Math.log10((v.views || 1) + 1) / 3;
-      if (m === "prakriti" && s.season === season) w += 3;
-      out.push({ src, key: "t:" + s.id, vid: v.id, title: s.bn, sub: [s.en, (v.singers || []).join(", ")].filter(Boolean).join(" · "), link: SRC.tagore.url + "#/song/" + encodeURIComponent(s.id), w });
+  /* ---------- Data: loaded only when the radio starts ---------- */
+  let data = null;
+  async function loadData(status) {
+    if (data) return data;
+    status("গান আনা হচ্ছে…");
+    const get = (u) => fetch(u).then((r) => { if (!r.ok) throw new Error(u); return r.json(); }).catch(() => null);
+    const [a, r, p] = await Promise.all([get(SRC.tagore.data), get(SRC.raag.data), get(SRC.piano.data)]);
+    data = { tagore: a, raag: r, piano: p };
+    const missing = Object.keys(data).filter((k) => !data[k]).map((k) => SRC[k].bn);
+    status(missing.length ? `আনা গেল না: ${missing.join(", ")}` : "");
+    return data;
+  }
+
+  const pickVideo = (vs) => vs && vs.length ? vs[Math.floor(Math.random() * Math.min(vs.length, 3))] : null;
+  function candidates(src, m) {
+    const want = new Set(MOODS[m][src]), d = data[src], ph = prahar(now().getHours()), season = currentSeason();
+    const out = [];
+    if (src === "tagore" && d) {
+      for (const s of d.songs) {
+        if (!s.videos || !s.videos.length || !(s.moods || []).some((x) => want.has(x))) continue;
+        const v = pickVideo(s.videos);
+        let w = 1 + Math.log10((v.views || 1) + 1) / 3;
+        if (m === "prakriti" && s.season === season) w += 3;
+        out.push({ src, key: "t:" + s.id, vid: v.id, title: s.bn, sub: [s.en, (v.singers || []).join(", ")].filter(Boolean).join(" · "), sec: v.sec, link: SRC.tagore.url + "#/song/" + encodeURIComponent(s.id), w });
+      }
     }
-  }
-  if (src === "raag" && d) {
-    const vids = d.videos || {};
-    for (const r of d.raags) {
-      const byForm = Object.values(r.videos || {}).flat(); if (!byForm.length) continue;
-      const moodHit = (r.moods || []).some((x) => want.has(x)), timeHit = (r.prahar || []).includes(ph);
-      const seasonRaag = (season === "Barsha" && /malhar|megh|desh/.test(r.id)) || (season === "Basanta" && /basant|bahar|hindol/.test(r.id));
-      // The hour matters most for a raag: off-hour raags only when nothing fits.
-      if (!timeHit && !(m === "prakriti" && seasonRaag)) continue;
-      let w = (moodHit ? 3 : 0.4) + (seasonRaag ? 2 : 0);
-      const id = byForm[Math.floor(Math.random() * Math.min(byForm.length, 4))], v = vids[id] || {};
-      const artist = (v.artists || []).map((a) => (d.artists.find((x) => x.id === a) || {}).en || a).join(", ");
-      out.push({ src, key: "r:" + r.id, vid: id, title: `রাগ ${r.bn}`, sub: [r.en, artist, v.form].filter(Boolean).join(" · "), link: SRC.raag.url + "#/raag/" + encodeURIComponent(r.id), w });
+    if (src === "raag" && d) {
+      const vids = d.videos || {};
+      for (const r of d.raags) {
+        const byForm = Object.values(r.videos || {}).flat(); if (!byForm.length) continue;
+        const moodHit = (r.moods || []).some((x) => want.has(x)), timeHit = (r.prahar || []).includes(ph);
+        const seasonRaag = (season === "Barsha" && /malhar|megh|desh/.test(r.id)) || (season === "Basanta" && /basant|bahar|hindol/.test(r.id));
+        if (!timeHit && !(m === "prakriti" && seasonRaag)) continue;
+        let w = (moodHit ? 3 : 0.4) + (seasonRaag ? 2 : 0);
+        const id = byForm[Math.floor(Math.random() * Math.min(byForm.length, 4))], v = vids[id] || {};
+        const artist = (v.artists || []).map((a) => (d.artists.find((x) => x.id === a) || {}).bn || (d.artists.find((x) => x.id === a) || {}).en || a).join(", ");
+        out.push({ src, key: "r:" + r.id, vid: id, title: `রাগ ${r.bn}`, sub: [r.en, artist, v.form].filter(Boolean).join(" · "), sec: v.sec, link: SRC.raag.url + "#/raag/" + encodeURIComponent(r.id), w });
+      }
     }
-  }
-  if (src === "piano" && d) {
-    const comp = d.meta.composers || [];
-    for (const wk of d.works) {
-      if (!wk.v || !wk.v.length || !(wk.moods || []).some((x) => want.has(x))) continue;
-      const v = pickVideo(wk.v), c = comp[wk.c] || {};
-      out.push({ src, key: "p:" + wk.id, vid: v.id, title: wk.t, sub: [c.n, wk.cat, (v.p || []).join(", ")].filter(Boolean).join(" · "), link: SRC.piano.url + "#/work/" + encodeURIComponent(wk.id), w: 1 + (wk.pop || 0) / 40 });
+    if (src === "piano" && d) {
+      const comp = d.meta.composers || [];
+      for (const wk of d.works) {
+        if (!wk.v || !wk.v.length || !(wk.moods || []).some((x) => want.has(x))) continue;
+        const v = pickVideo(wk.v), c = comp[wk.c] || {};
+        out.push({ src, key: "p:" + wk.id, vid: v.id, title: wk.t, sub: [c.n, wk.cat, (v.p || []).join(", ")].filter(Boolean).join(" · "), sec: v.sec, link: SRC.piano.url + "#/work/" + encodeURIComponent(wk.id), w: 1 + (wk.pop || 0) / 40 });
+      }
     }
+    const liked = new Set(mem.liked), skipped = new Set(mem.skipped), played = new Set(mem.played.slice(-60));
+    for (const c of out) {
+      if (liked.has(c.key)) c.w *= 2.5;
+      if (skipped.has(c.key)) c.w *= 0.1;
+      if (played.has(c.key)) c.w *= 0.3;
+    }
+    return out;
   }
-  const liked = new Set(mem.liked), skipped = new Set(mem.skipped), played = new Set(mem.played.slice(-60));
-  for (const c of out) {
-    if (liked.has(c.key)) c.w *= 2.5;
-    if (skipped.has(c.key)) c.w *= 0.1;
-    if (played.has(c.key)) c.w *= 0.3;   // fresh things first
+  function weightedTake(list, n) {
+    const res = [], pool = list.slice();
+    while (res.length < n && pool.length) {
+      const tot = pool.reduce((s, c) => s + c.w, 0); let r = Math.random() * tot, i = 0;
+      while (i < pool.length - 1 && (r -= pool[i].w) > 0) i++;
+      res.push(pool.splice(i, 1)[0]);
+    }
+    return res;
   }
-  return out;
-}
-function weightedTake(list, n) {
-  const res = [], pool = list.slice();
-  while (res.length < n && pool.length) {
-    const tot = pool.reduce((s, c) => s + c.w, 0); let r = Math.random() * tot, i = 0;
-    while (i < pool.length - 1 && (r -= pool[i].w) > 0) i++;
-    res.push(pool.splice(i, 1)[0]);
-  }
-  return res;
-}
 
-/* ---------- Queue ---------- */
-let queue = [], pos = 0;
-const enabled = () => [...document.querySelectorAll("[data-src]")].filter((x) => x.checked).map((x) => x.dataset.src);
-function build() {
-  const srcs = enabled().filter((s) => data && data[s]);
-  if (!srcs.length) { $("status").textContent = "অন্তত একটা উৎস বেছে নিন।"; return false; }
-  // Share of each source leans toward what has been finished rather than skipped.
-  const share = Object.fromEntries(srcs.map((s) => [s, Math.max(0.3, 1 + (mem.src[s] || 0) * 0.15)]));
-  const lists = Object.fromEntries(srcs.map((s) => [s, weightedTake(candidates(s, mood), 20)]));
-  // Raags run long (often 15–40 min), so they come less often than songs and piano pieces.
-  if (lists.raag) share.raag *= 0.6;
-  queue = [];
-  for (let i = 0; i < 24; i++) {
-    const avail = srcs.filter((s) => lists[s].length); if (!avail.length) break;
-    const last = queue[queue.length - 1]?.src;
-    const opts = avail.length > 1 ? avail.filter((s) => s !== last) : avail;
-    const tot = opts.reduce((t, s) => t + share[s], 0); let r = Math.random() * tot;
-    const s = opts.find((x) => (r -= share[x]) <= 0) || opts[opts.length - 1];
-    queue.push(lists[s].shift());
-  }
-  pos = 0;
-  if (!queue.length) { $("status").textContent = "এই ভাবের কিছু পাওয়া গেল না।"; return false; }
-  renderQueue();
-  return true;
-}
-function renderQueue() {
-  $("queue").innerHTML = queue.map((q, i) => `<li data-i="${i}" class="${i === pos ? "cur" : ""}" style="--c:${SRC[q.src].c}"><span class="dot"></span><span class="q"><div>${esc(q.title)}</div><small>${esc(SRC[q.src].bn)} · ${esc(q.sub)}</small></span></li>`).join("");
-  const q = queue[pos];
-  $("now").innerHTML = q ? `<span class="tag" style="--c:${SRC[q.src].c}">${esc(SRC[q.src].bn)}</span><div class="t">${esc(q.title)}</div><div class="s">${esc(q.sub)}</div>` : "";
-  if (q) { $("open").href = q.link; $("like").textContent = mem.liked.includes(q.key) ? "♥ ভালো লাগল" : "♡ ভালো লাগল"; $("like").setAttribute("aria-pressed", mem.liked.includes(q.key)); }
-  $("queue").querySelector(".cur")?.scrollIntoView({ block: "nearest" });
-}
-$("queue").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) go(+li.dataset.i, "jump"); });
+  /* ---------- The radio object a page drives ----------
+     opts: { ytId, sources(): string[], onStatus(text), onMood(mood, guessed), onQueue(queue, pos), onPlaying(bool), onStart() } */
+  function createRadio(opts) {
+    const o = Object.assign({ ytId: "yt", sources: () => Object.keys(SRC), onStatus() {}, onMood() {}, onQueue() {}, onPlaying() {}, onStart() {} }, opts);
+    let mood = guessMood(), guessed = mood, queue = [], pos = 0, yt = null, ytReady = null, started = 0, on = false;
 
-/* ---------- Learning signals ---------- */
-function learn(q, how) {
-  if (!q) return;
-  const part = dayPart(new Date().getHours())[3];
-  if (how === "skip") { bump(mem.mood, part + ":" + mood, -0.5); bump(mem.src, q.src, -0.5); mem.skipped.push(q.key); keepLast(mem.skipped, 300); }
-  if (how === "done") { bump(mem.mood, part + ":" + mood, 1); bump(mem.src, q.src, 1); }
-  if (how === "like") { bump(mem.mood, part + ":" + mood, 2); bump(mem.src, q.src, 1); }
-  saveMem();
-}
-
-/* ---------- YouTube player ---------- */
-let yt = null, ytReady = null, started = 0;
-function ensureYT() {
-  if (ytReady) return ytReady;
-  ytReady = new Promise((res) => {
-    window.onYouTubeIframeAPIReady = () => {
-      yt = new YT.Player("yt", { width: "100%", height: "100%", playerVars: { autoplay: 1, rel: 0, modestbranding: 1, playsinline: 1 },
-        events: { onReady: () => res(yt), onStateChange: (e) => { if (e.data === 0) { learn(queue[pos], "done"); go(pos + 1); } }, onError: () => go(pos + 1) } });
+    function build() {
+      const srcs = o.sources().filter((s) => data && data[s]);
+      if (!srcs.length) { o.onStatus("অন্তত একটা উৎস বেছে নিন।"); return false; }
+      const share = Object.fromEntries(srcs.map((s) => [s, Math.max(0.3, 1 + (mem.src[s] || 0) * 0.15)]));
+      const lists = Object.fromEntries(srcs.map((s) => [s, weightedTake(candidates(s, mood), 20)]));
+      if (lists.raag) share.raag *= 0.6;   // raags run long, so they come less often
+      queue = [];
+      for (let i = 0; i < 24; i++) {
+        const avail = srcs.filter((s) => lists[s].length); if (!avail.length) break;
+        const last = queue[queue.length - 1]?.src;
+        const opts2 = avail.length > 1 ? avail.filter((s) => s !== last) : avail;
+        const tot = opts2.reduce((t, s) => t + share[s], 0); let r = Math.random() * tot;
+        const s = opts2.find((x) => (r -= share[x]) <= 0) || opts2[opts2.length - 1];
+        queue.push(lists[s].shift());
+      }
+      pos = 0;
+      if (!queue.length) { o.onStatus("এই ভাবের কিছু পাওয়া গেল না।"); return false; }
+      o.onStatus("");
+      return true;
+    }
+    function learn(q, how) {
+      if (!q) return;
+      const part = dayPart(now().getHours())[3];
+      if (how === "skip") { bump(mem.mood, part + ":" + mood, -0.5); bump(mem.src, q.src, -0.5); mem.skipped.push(q.key); keepLast(mem.skipped, 300); }
+      if (how === "done") { bump(mem.mood, part + ":" + mood, 1); bump(mem.src, q.src, 1); }
+      if (how === "like") { bump(mem.mood, part + ":" + mood, 2); bump(mem.src, q.src, 1); }
+      saveMem();
+    }
+    function ensureYT() {
+      if (ytReady) return ytReady;
+      ytReady = new Promise((res) => {
+        window.onYouTubeIframeAPIReady = () => {
+          yt = new YT.Player(o.ytId, { width: "100%", height: "100%", playerVars: { autoplay: 1, rel: 0, modestbranding: 1, playsinline: 1 },
+            events: {
+              onReady: () => { res(yt); if (queue[pos]) yt.loadVideoById(queue[pos].vid); },
+              onStateChange: (e) => { o.onPlaying(e.data === 1); if (e.data === 0) { learn(queue[pos], "done"); go(pos + 1); } },
+              onError: () => go(pos + 1) } });
+        };
+        const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api";
+        s.onerror = () => o.onStatus("ইউটিউব প্লেয়ার আনা গেল না (অফলাইন?)");
+        document.head.appendChild(s);
+      });
+      return ytReady;
+    }
+    function go(i, why) {
+      if (why === "skip" && queue[pos] && Date.now() - started < 60000) learn(queue[pos], "skip");
+      if (i >= queue.length) { if (!build()) return; i = 0; }
+      if (i < 0) i = 0;
+      pos = i; const q = queue[pos];
+      mem.played.push(q.key); keepLast(mem.played, 200); saveMem();
+      started = Date.now();
+      if (yt) yt.loadVideoById(q.vid);
+      o.onQueue(queue, pos);
+    }
+    const R = {
+      get mood() { return mood; }, get guessed() { return guessed; }, get queue() { return queue; }, get pos() { return pos; },
+      get current() { return queue[pos]; }, get started() { return on; },
+      setMood(m) { if (!MOODS[m]) return; mood = m; o.onMood(mood, guessed); if (on && build()) go(0); },
+      async play() {
+        await loadData(o.onStatus);
+        if (!build()) return false;
+        on = true; o.onStart();
+        go(0);                       // render at once; the embed loads the track when the API is ready
+        ensureYT();                  // not awaited: offline, the queue still works
+        return true;
+      },
+      rebuild() { if (build()) go(0); },
+      next() { go(pos + 1, "skip"); }, prev() { go(pos - 1); }, jump(i) { go(i, "jump"); },
+      toggle() { if (!yt) return; yt.getPlayerState() === 1 ? yt.pauseVideo() : yt.playVideo(); },
+      isLiked(q = queue[pos]) { return !!q && mem.liked.includes(q.key); },
+      like() {
+        const q = queue[pos]; if (!q) return;
+        const i = mem.liked.indexOf(q.key);
+        if (i >= 0) mem.liked.splice(i, 1); else { mem.liked.push(q.key); learn(q, "like"); }
+        saveMem(); o.onQueue(queue, pos);
+      },
+      sourcesChanged() { if (on && build()) go(0); },
+      forget() {
+        mem = { mood: {}, src: {}, liked: [], skipped: [], played: [] }; saveMem();
+        mood = guessed = guessMood(); o.onMood(mood, guessed);
+      },
+      guessLine() {   // "এখন সন্ধ্যা, ঋতু হেমন্ত — আজ মনে হচ্ছে প্রেম"
+        const c = context();
+        return { partBn: c.partBn, seasonBn: c.seasonBn, moodBn: MOODS[guessed].bn, moodEn: MOODS[guessed].en, mood: guessed };
+      },
     };
-    const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s);
-  });
-  return ytReady;
-}
-function go(i, why) {
-  if (why === "skip" && queue[pos] && Date.now() - started < 60000) learn(queue[pos], "skip");  // left within a minute
-  if (i >= queue.length) { if (!build()) return; i = 0; }
-  if (i < 0) i = 0;
-  pos = i; const q = queue[pos];
-  mem.played.push(q.key); keepLast(mem.played, 200); saveMem();
-  started = Date.now();
-  if (yt) yt.loadVideoById(q.vid);
-  renderQueue();
-}
-
-$("play").addEventListener("click", async () => {
-  $("play").disabled = true;
-  await loadData();
-  if (build()) {
-    $("player").classList.add("on");
-    await ensureYT();
-    go(0);
+    o.onMood(mood, guessed);
+    return R;
   }
-  $("play").disabled = false;
-  $("play").textContent = "↻ নতুন তালিকা · New mix";
+
+  window.Surghor = { MOODS, SRC, SEASONS, context, currentSeason, dayPart, prahar, bn, esc, dateBn, dateEn, createRadio, mem: () => mem,
+    fmt(sec) { if (!sec) return ""; const m = Math.floor(sec / 60); return m >= 60 ? `${bn(Math.floor(m / 60))} ঘ ${bn(m % 60)} মি` : `${bn(m)} মি`; } };
+})();
+</script>
+<script>
+"use strict";
+const S = window.Surghor, $ = (id) => document.getElementById(id);
+const ctx = S.context();
+const H = document.documentElement; H.dataset.part = ctx.partKey; H.dataset.season = ctx.season;
+$("today").innerHTML = `<b>${ctx.partBn} · ${ctx.seasonBn}</b>${S.dateBn(ctx.d)}<br><small>${S.esc(ctx.partEn)} · ${S.esc(ctx.seasonEn)}</small>`;
+$("prahar-now").textContent = `প্রহর ${S.bn(ctx.prahar)} · এখনকার রাগ`;
+
+/* ---- the sky band: sun or moon by the hour, ground and motif by the season, the house of three rooms ---- */
+(function scene() {
+  const W = 800, G = 128;   // ground line in the 800×170 view
+  const orbX = { dawn: 90, morning: 230, noon: 400, afternoon: 570, evening: 680, night: 710 }[ctx.partKey];
+  const orbY = { dawn: 100, morning: 60, noon: 36, afternoon: 70, evening: 96, night: 46 }[ctx.partKey];
+  const night = ctx.partKey === "night" || ctx.partKey === "evening";
+  const rnd = (seed) => { const x = Math.sin(seed) * 10000; return x - Math.floor(x); };
+  let g = "";
+  if (ctx.partKey === "night") for (let i = 0; i < 40; i++) g += `<circle cx="${(rnd(i) * W).toFixed(1)}" cy="${(rnd(i + 99) * 100).toFixed(1)}" r="${(1 + rnd(i + 7)).toFixed(1)}" fill="#fff" opacity="${(.4 + rnd(i + 3) * .6).toFixed(2)}"/>`;
+  g += `<circle cx="${orbX}" cy="${orbY}" r="${night ? 20 : 26}" fill="var(--orb)" opacity=".95"/>`;
+  if (night) g += `<circle cx="${orbX + 9}" cy="${orbY - 7}" r="18" fill="var(--sky-a)" opacity=".92"/>`;
+  g += `<g class="cloud" opacity=".3" fill="#fff"><ellipse cx="180" cy="70" rx="70" ry="12"/><ellipse cx="520" cy="44" rx="90" ry="10"/></g>`;
+  g += `<path d="M0 170 L0 ${G + 4} C120 ${G - 10} 220 ${G + 10} 340 ${G} S600 ${G - 12} 800 ${G + 2} L800 170 Z" fill="var(--ground)"/>`;
+  g += `<path d="M0 170 L0 ${G + 24} C200 ${G + 14} 420 ${G + 36} 800 ${G + 20} L800 170 Z" fill="var(--ground2)" opacity=".8"/>`;
+  const s = ctx.season;
+  if (s === "Barsha") { for (let i = 0; i < 60; i++) { const x = rnd(i) * W, y = rnd(i + 5) * 120; g += `<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${(x - 5).toFixed(1)}" y2="${(y + 18).toFixed(1)}" stroke="#fff" stroke-opacity=".5" stroke-width="1.2"/>`; } for (let i = 0; i < 6; i++) g += `<circle cx="${80 + i * 130}" cy="${(G - 4 + rnd(i) * 8).toFixed(1)}" r="6" fill="#f2d675"/>`; }
+  if (s === "Sharat") { for (let i = 0; i < 50; i++) { const x = rnd(i + 20) * W, h = 24 + rnd(i) * 26; g += `<path d="M${x.toFixed(1)} ${G + 6} q${(4 - rnd(i) * 8).toFixed(1)} -${(h / 2).toFixed(1)} ${(rnd(i) * 10 - 5).toFixed(1)} -${h.toFixed(1)}" stroke="#fff" stroke-opacity=".85" stroke-width="2" fill="none"/>`; } }
+  if (s === "Hemanta") { for (let i = 0; i < 90; i++) { const x = rnd(i + 40) * W; g += `<line x1="${x.toFixed(1)}" y1="${G + 10}" x2="${(x + 2).toFixed(1)}" y2="${(G - 12 + rnd(i) * 12).toFixed(1)}" stroke="#f3dd8a" stroke-width="2" stroke-linecap="round"/>`; } g += `<path d="M560 ${G - 6} c20 -30 60 -30 80 0" stroke="#5a3c1a" stroke-width="2" fill="none"/>`; }
+  if (s === "Sheet") { for (let i = 0; i < 120; i++) g += `<circle cx="${(rnd(i + 60) * W).toFixed(1)}" cy="${(G - 6 + rnd(i) * 28).toFixed(1)}" r="${(2 + rnd(i + 2) * 2).toFixed(1)}" fill="#fff07a"/>`; g += `<rect x="0" y="${G - 40}" width="800" height="50" fill="#fff" opacity=".22"/>`; }
+  if (s === "Basanta") { g += `<path d="M640 170 V${G - 40} M640 ${G - 30} l-40 -40 M640 ${G - 15} l50 -45 M600 ${G - 70} l-20 -25 M690 ${G - 60} l30 -30" stroke="#5a3c1a" stroke-width="4" stroke-linecap="round"/>`; for (let i = 0; i < 40; i++) g += `<circle cx="${(560 + rnd(i + 80) * 170).toFixed(1)}" cy="${(G - 120 + rnd(i) * 90).toFixed(1)}" r="${(3 + rnd(i + 1) * 3).toFixed(1)}" fill="#e8522a"/>`; }
+  if (s === "Grishma") { g += `<path d="M120 170 V${G - 60} M120 ${G - 50} l-40 -45 M120 ${G - 35} l45 -50" stroke="#5a3c1a" stroke-width="4" stroke-linecap="round"/>`; for (let i = 0; i < 40; i++) g += `<circle cx="${(50 + rnd(i + 80) * 150).toFixed(1)}" cy="${(G - 130 + rnd(i) * 90).toFixed(1)}" r="${(3 + rnd(i + 1) * 3).toFixed(1)}" fill="#d8342a"/>`; }
+  // the house of three rooms
+  const y = G + 2;
+  g += `<g fill="var(--house)" opacity=".55"><path d="M300 ${y} l40 -34 40 34 z M340 ${y} h-36 v26 h36 z M340 ${y} l40 -34 40 34 z M380 ${y} h-38 v26 h38 z M380 ${y} l40 -34 40 34 z M420 ${y} h-38 v26 h38 z"/><rect x="330" y="${y + 10}" width="8" height="10" fill="var(--orb)"/><rect x="370" y="${y + 10}" width="8" height="10" fill="var(--orb)"/><rect x="410" y="${y + 10}" width="8" height="10" fill="var(--orb)"/></g>`;
+  $("scene").innerHTML = g;
+})();
+
+const tagStyle = (src) => `--c:${S.SRC[src].c}`;
+const radio = S.createRadio({
+  ytId: "yt",
+  sources: () => [...document.querySelectorAll(".src[aria-pressed='true']")].map((b) => b.dataset.src),
+  onStatus: (t) => { $("status").textContent = t; },
+  onMood(mood, guessed) {
+    const m = S.MOODS[guessed];
+    $("guess").innerHTML = `এখন ${ctx.partBn}, ঋতু ${ctx.seasonBn} — আজ মনে হচ্ছে <b>${m.bn}</b>।<small>It's ${S.esc(ctx.partEn)} in ${S.esc(ctx.seasonEn.split(" · ")[0])} — feels like ${S.esc(m.en.toLowerCase())}. Or choose another:</small>`;
+    $("moods").innerHTML = Object.entries(S.MOODS).map(([k, x]) =>
+      `<button class="mood m-${k} ${k === guessed ? "guess-mark" : ""}" type="button" data-m="${k}" aria-pressed="${k === mood}"><b>${x.bn}</b><span>${x.en} · ${x.hint}</span></button>`).join("") +
+      `<button class="mood more" type="button" id="remix">↻ নতুন তালিকা<br><span>New mix</span></button>`;
+  },
+  onQueue(queue, pos) {
+    $("queue").innerHTML = queue.map((q, i) => `<li data-i="${i}" class="${i === pos ? "cur" : ""}" style="${tagStyle(q.src)}"><span class="n">${S.esc(S.SRC[q.src].short)}</span><span class="q"><div>${S.esc(q.title)}</div><small>${S.esc(q.sub)}</small></span><span class="d">${S.fmt(q.sec)}</span></li>`).join("");
+    $("qcount").textContent = `Up next · ${S.bn(pos + 1)}/${S.bn(queue.length)}`;
+    const q = queue[pos];
+    $("now").className = "now";
+    $("now").innerHTML = `<span class="tag" style="${tagStyle(q.src)}">${S.esc(S.SRC[q.src].bn)}</span><div><div class="t">${S.esc(q.title)}</div><div class="s">${S.esc(q.sub)}</div></div>`;
+    $("open").href = q.link;
+    const liked = radio.isLiked(q);
+    $("like").innerHTML = (liked ? "♥" : "♡") + "<small>ভালো লাগল</small>"; $("like").setAttribute("aria-pressed", liked);
+    $("queue").querySelector(".cur")?.scrollIntoView({ block: "nearest" });
+  },
+  onPlaying(p) { $("toggle").innerHTML = p ? "⏸<small>থামাও</small>" : "▶<small>চালাও</small>"; },
+  onStart() { $("radio").classList.add("on"); $("toggle").innerHTML = "⏸<small>থামাও</small>"; },
 });
-$("next").addEventListener("click", () => go(pos + 1, "skip"));
-$("prev").addEventListener("click", () => go(pos - 1));
-$("toggle").addEventListener("click", () => { if (!yt) return; yt.getPlayerState() === 1 ? yt.pauseVideo() : yt.playVideo(); });
-$("like").addEventListener("click", () => {
-  const q = queue[pos]; if (!q) return;
-  const i = mem.liked.indexOf(q.key);
-  if (i >= 0) mem.liked.splice(i, 1); else { mem.liked.push(q.key); learn(q, "like"); }
-  saveMem(); renderQueue();
+async function start() { $("play").disabled = true; try { await radio.play(); } finally { $("play").disabled = false; } }
+$("moods").addEventListener("click", (e) => {
+  if (e.target.closest("#remix")) { radio.started ? radio.rebuild() : start(); return; }
+  const b = e.target.closest(".mood[data-m]"); if (b) radio.setMood(b.dataset.m);
 });
-$("forget").addEventListener("click", () => {
-  if (!confirm("রেডিও যা শিখেছে সব মুছে দেব?")) return;
-  mem = { mood: {}, src: {}, liked: [], skipped: [], played: [] }; saveMem();
-  mood = guessMood(); renderGuess();
+$("sources").addEventListener("click", (e) => {
+  const b = e.target.closest(".src"); if (!b) return;
+  b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); radio.sourcesChanged();
+});
+$("play").addEventListener("click", start);
+$("toggle").addEventListener("click", () => radio.started ? radio.toggle() : start());
+$("next").addEventListener("click", () => radio.next());
+$("prev").addEventListener("click", () => radio.prev());
+$("like").addEventListener("click", () => radio.like());
+$("queue").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) radio.jump(+li.dataset.i); });
+$("forget").addEventListener("click", () => { if (confirm("রেডিও যা শিখেছে সব মুছে দেব?")) radio.forget(); });
+$("theme").addEventListener("click", () => {
+  const dark = H.dataset.theme ? H.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  H.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("surghor.theme", H.dataset.theme); } catch {}
 });
 if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>

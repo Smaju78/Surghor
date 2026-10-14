@@ -1,0 +1,13 @@
+guess line: এখন সকাল, ঋতু শরৎ — আজ মনে হচ্ছে আনন্দ।It's morning in Sharat — feels like joy. Or choose another:
+today: সকাল · শরৎ | ১৪ অক্টোবর | morning · Sharat · autumn
+queue 24 tracks, sources রাগ/পিয়ানো/রবি
+embed box 303x170
+memory after play: {"mood":{"evening:prem":3},"src":{"piano":2},"liked":["p:bach-bwv-846"],"skipped":[],"played":["r:gurjari-todi"]}
+memory after mood/next/like: liked=2 skipped=1 keys=mood,src,liked,skipped,played
+after toggling raag off: পিয়ানো/রবি
+after reset: {"mood":{},"src":{},"liked":[],"skipped":[],"played":[]}
+theme after toggle: dark / stored dark
+rooms: /Anandadhara/ /Raagmala/ /Piano/
+open-on-site: /Piano/#/work/satie-je-te-veux
+
+no problems

@@ -2,8 +2,8 @@
 // The page and the three sites' song lists are fetched fresh when online (so daily
 // updates show up) and fall back to the saved copy when offline. Icons and fonts are
 // saved the first time they load. YouTube itself always needs the network.
-const CACHE = "surghor-v1";
-const CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
+const CACHE = "surghor-v2";
+const CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "img/landscape-by-1937.jpg", "img/seven-figures.jpg"];
 const DATA = ["/Anandadhara/songs.json", "/Raagmala/raagmala.json", "/Piano/works.json"];
 
 self.addEventListener("install", e => {
