@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>সুরঘর · A · বৈঠকখানা</title>
+<meta name="description" content="Concept A — Baithakkhana: a warm paper house in Tagore's palette; the mood radio is the sitting room, the three sites are three rooms.">
+<meta name="theme-color" content="#b5695a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap">
+<style>
+:root{
+  --bg:#f3e9d6; --paper:#fbf6ec; --ink:#2a2320; --soft:#6b5f54; --line:#e2d5bf; --line2:#cdbfa5;
+  --clay:#b5695a; --clay-ink:#fff8f0;
+  --ochre:#c6922e; --indigo:#2f3f6e; --sienna:#a65a31; --sap:#5f7a3a; --crimson:#8e2f3c; --saffron:#c98a2a; --sage:#6d7f5a; --teal:#3f7f86;
+  --tagore:#a65a31; --raag:#5a2d82; --piano:#2f7a63;
+  --raag-bg:#3b2447; --raag-gold:#d9b254; --piano-bg:#faf7f0; --piano-ink:#1d1d1b;
+  --focus:#2f6fd6; --shadow:0 10px 30px rgba(90,60,20,.12);
+  --bn:"Tiro Bangla","Hind Siliguri",serif; --ui:"Hind Siliguri",system-ui,sans-serif; --en:"Fraunces",Georgia,serif;
+  --sky-a:#f6d9b8; --sky-b:#f3e9d6;
+}
+:root[data-theme="dark"]{
+  --bg:#1e1916; --paper:#29231f; --ink:#f1e8d8; --soft:#b5a894; --line:#3b332d; --line2:#4d433b;
+  --clay:#d4897a; --clay-ink:#2a1a16; --tagore:#d08a5e; --raag:#b39ad6; --piano:#7fc2a6;
+  --raag-bg:#2a1a33; --piano-bg:#1f2422; --piano-ink:#efe9dc; --focus:#8ab4ff; --shadow:0 10px 30px rgba(0,0,0,.4);
+  --ochre:#d8a94a; --indigo:#7f90c4; --sienna:#c97a4c; --sap:#8ea65f; --crimson:#b85566; --saffron:#dca04a; --sage:#8f9f7d; --teal:#5fa3aa;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1e1916; --paper:#29231f; --ink:#f1e8d8; --soft:#b5a894; --line:#3b332d; --line2:#4d433b;
+  --clay:#d4897a; --clay-ink:#2a1a16; --tagore:#d08a5e; --raag:#b39ad6; --piano:#7fc2a6;
+  --raag-bg:#2a1a33; --piano-bg:#1f2422; --piano-ink:#efe9dc; --focus:#8ab4ff; --shadow:0 10px 30px rgba(0,0,0,.4);
+  --ochre:#d8a94a; --indigo:#7f90c4; --sienna:#c97a4c; --sap:#8ea65f; --crimson:#b85566; --saffron:#dca04a; --sage:#8f9f7d; --teal:#5fa3aa;
+}}
+/* time-of-day sky band */
+:root[data-part="dawn"]{--sky-a:#f4c9b0;--sky-b:#f9e6c9} :root[data-part="morning"]{--sky-a:#cfe0ea;--sky-b:#f3e9d6}
+:root[data-part="noon"]{--sky-a:#f1e3b4;--sky-b:#f3e9d6} :root[data-part="afternoon"]{--sky-a:#f0c48a;--sky-b:#f3e9d6}
+:root[data-part="evening"]{--sky-a:#c9a0b6;--sky-b:#f0d5c0} :root[data-part="night"]{--sky-a:#3a4668;--sky-b:#6f6a86}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px 48px}
+
+/* sky strip + header */
+.sky{height:84px;background:linear-gradient(180deg,var(--sky-a),var(--sky-b));position:relative;overflow:hidden}
+.sky .orb{position:absolute;width:34px;height:34px;border-radius:50%;background:#fff6d8;box-shadow:0 0 24px 8px rgba(255,236,190,.7);top:22px;left:var(--x,60%)}
+:root[data-part="night"] .sky .orb,:root[data-part="evening"] .sky .orb{background:#f7f0dc;box-shadow:0 0 18px 4px rgba(255,250,230,.5)}
+.sky .alpona{position:absolute;right:14px;bottom:-26px;width:120px;height:120px;color:var(--clay);opacity:.5}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:-30px;position:relative}
+.brand{display:flex;align-items:flex-end;gap:10px}
+.brand .mark{width:56px;height:56px;border-radius:50%;background:var(--paper);border:1px solid var(--line2);display:grid;place-items:center;box-shadow:var(--shadow)}
+.brand .mark svg{width:40px;height:40px;color:var(--clay)}
+h1{font-family:var(--bn);font-weight:400;font-size:2.4rem;margin:0;line-height:1.05}
+h1 small{display:block;font-family:var(--en);font-size:.95rem;color:var(--soft);font-style:italic;letter-spacing:.02em}
+.today{text-align:right;color:var(--soft);font-size:.95rem;line-height:1.3}
+.today b{display:block;font-family:var(--bn);font-weight:400;font-size:1.35rem;color:var(--ink)}
+.today small{font-family:var(--en);font-style:italic}
+.tools{display:flex;gap:8px;align-items:center;margin-top:6px}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:var(--paper);display:grid;place-items:center;font-size:1rem}
+
+/* the sitting room = the radio */
+.radio{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.radio-head{padding:18px 18px 0}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);font-weight:600;font-family:var(--ui)}
+.guess{font-family:var(--bn);font-size:1.45rem;line-height:1.35;margin:6px 0 0}
+.guess b{font-weight:400;color:var(--clay);border-bottom:2px solid color-mix(in srgb,var(--clay) 40%,transparent)}
+.guess small{display:block;font-family:var(--en);font-style:italic;font-size:.95rem;color:var(--soft);margin-top:2px}
+
+.stage{position:relative;margin:16px 18px 0;aspect-ratio:16/9;background:#1a1512;border-radius:14px;overflow:hidden;border:1px solid var(--line2)}
+.stage > #yt,.stage iframe{position:absolute;inset:0;width:100%;height:100%}
+.cover{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;color:#fff6e8;
+  background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(28,18,12,.55)),url(img/landscape-by-1937.jpg) center/cover}
+.cover .cap{font-family:var(--en);font-style:italic;font-size:.85rem;opacity:.9}
+.cover .big{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;background:var(--clay);color:#fff;border:0;display:grid;place-items:center;font-size:2rem;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.radio.on .cover{display:none}
+
+.now{display:flex;gap:12px;align-items:flex-start;padding:14px 18px 0;min-height:64px}
+.now .tag{flex:none;margin-top:6px;font-size:.78rem;font-weight:600;color:#fff;background:var(--c);border-radius:999px;padding:2px 10px}
+.now .t{font-family:var(--bn);font-size:1.35rem;line-height:1.25}
+.now .s{color:var(--soft);font-size:.92rem}
+.now.empty{color:var(--soft);font-style:italic;font-family:var(--en)}
+.controls{display:grid;grid-template-columns:1fr 1fr 1.4fr 1fr 1fr;gap:8px;padding:12px 18px 0;align-items:center}
+.ctl{height:52px;border-radius:14px;border:1px solid var(--line2);background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;font-size:1.05rem;line-height:1;text-decoration:none}
+.ctl small{font-size:.68rem;color:var(--soft);margin-top:3px}
+.ctl.main{background:var(--clay);color:var(--clay-ink);border-color:var(--clay);font-size:1.5rem;height:60px}
+.ctl.main small{color:var(--clay-ink);opacity:.85}
+.ctl[aria-pressed="true"]{color:var(--crimson);border-color:var(--crimson)}
+.status{padding:8px 18px 0;color:var(--soft);font-size:.88rem;min-height:1.4em}
+
+.moods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px 18px 0}
+.mood{position:relative;border:0;border-radius:14px;padding:12px 10px 10px;text-align:left;color:#fff;background:var(--c);min-height:74px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.mood::after{content:"";position:absolute;inset:0;background:url(img/seven-figures.jpg) center/cover;mix-blend-mode:luminosity;opacity:.12;pointer-events:none}
+.mood b{font-family:var(--bn);font-weight:400;font-size:1.25rem;line-height:1.1;position:relative}
+.mood span{font-family:var(--en);font-style:italic;font-size:.75rem;opacity:.85;position:relative}
+.mood[aria-pressed="true"]{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--c)}
+.mood[aria-pressed="true"]::before{content:"✓";position:absolute;top:8px;right:10px;font-size:.85rem;opacity:.9}
+.mood.guess-mark::before{content:"আজকের";font-family:var(--ui);position:absolute;top:8px;right:10px;font-size:.68rem;opacity:.85}
+.mood[aria-pressed="true"].guess-mark::before{content:"✓ আজকের"}
+.mood.m-calm{--c:var(--sage)} .mood.m-bhakti{--c:var(--saffron)} .mood.m-prem{--c:var(--crimson)} .mood.m-viraha{--c:var(--indigo)}
+.mood.m-ananda{--c:var(--ochre)} .mood.m-prakriti{--c:var(--sap)} .mood.m-sahas{--c:var(--sienna)}
+.mood.more{--c:transparent;background:transparent;color:var(--soft);border:1px dashed var(--line2);box-shadow:none;justify-content:center;align-items:center;font-size:.85rem;text-align:center}
+.mood.more::after{display:none}
+
+.sources{display:flex;gap:8px;padding:14px 18px 0;flex-wrap:wrap;align-items:center}
+.sources .lbl{font-size:.85rem;color:var(--soft);margin-right:4px}
+.src{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:999px;padding:7px 14px 7px 10px;background:var(--bg);font-size:.95rem}
+.src i{width:12px;height:12px;border-radius:50%;background:var(--c);display:inline-block;box-shadow:0 0 0 2px var(--paper)}
+.src[aria-pressed="false"]{opacity:.5;text-decoration:line-through}
+.src[aria-pressed="true"]{border-color:var(--c)}
+
+.queue-wrap{padding:16px 18px 18px}
+.queue-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line2);padding-bottom:6px}
+.queue-head h3{margin:0;font-family:var(--bn);font-weight:400;font-size:1.15rem}
+.queue-head small{color:var(--soft);font-family:var(--en);font-style:italic}
+.queue{list-style:none;margin:0;padding:0;max-height:380px;overflow:auto}
+.queue:empty::before{content:"বাজাও টিপলে ২৪টা সুরের তালিকা তৈরি হবে — তিন ঘর থেকে মিলিয়ে।";display:block;color:var(--soft);padding:12px 0;font-size:.92rem}
+.queue li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px dotted var(--line2);cursor:pointer;border-radius:8px}
+.queue li:hover{background:color-mix(in srgb,var(--c) 8%,transparent)}
+.queue li.cur{background:color-mix(in srgb,var(--c) 14%,transparent)}
+.queue li .n{width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:600}
+.queue li .q{min-width:0}
+.queue li .q div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--bn);font-size:1.02rem}
+.queue li .q small{color:var(--soft);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue li .d{color:var(--soft);font-size:.8rem}
+
+/* the three rooms */
+.rooms-head{margin:34px 0 10px;display:flex;align-items:baseline;gap:10px}
+.rooms-head h2{font-family:var(--bn);font-weight:400;font-size:1.5rem;margin:0}
+.rooms-head small{font-family:var(--en);font-style:italic;color:var(--soft)}
+.rooms{display:grid;gap:14px}
+.room{display:block;text-decoration:none;border-radius:18px;padding:20px 18px 18px;min-height:190px;position:relative;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.room .k{font-family:var(--en);font-style:italic;font-size:.85rem;opacity:.8}
+.room b{display:block;font-family:var(--bn);font-weight:400;font-size:2rem;line-height:1.1;margin-top:2px}
+.room p{margin:8px 0 0;font-size:.92rem;max-width:34ch;line-height:1.45}
+.room .go{position:absolute;right:16px;bottom:14px;font-size:.85rem;font-weight:600;letter-spacing:.04em}
+.room .count{display:inline-block;margin-top:10px;font-size:.78rem;border:1px solid currentColor;border-radius:999px;padding:1px 10px;opacity:.85}
+.room.tagore{background:var(--paper);color:var(--ink);border-top:4px solid var(--tagore)}
+.room.tagore::before{content:"";position:absolute;inset:0;background:url(img/landscape-by-1937.jpg) right center/cover;opacity:.18;mix-blend-mode:multiply;mask:linear-gradient(90deg,transparent 30%,#000)}
+:root[data-theme="dark"] .room.tagore::before{mix-blend-mode:screen;opacity:.22}
+.room.tagore .k{color:var(--tagore)}
+.room.tagore .alp{position:absolute;right:14px;top:12px;width:54px;height:54px;color:var(--tagore);opacity:.7}
+.room.raag{background:var(--raag-bg);color:#f3e9d6;border-top:4px solid var(--raag-gold)}
+.room.raag .k{color:var(--raag-gold)} .room.raag .go{color:var(--raag-gold)}
+.room.raag .mandala{position:absolute;right:10px;top:10px;width:130px;height:130px;opacity:.9}
+.room.raag::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,var(--raag-gold),transparent);opacity:.6}
+.room.piano{background:var(--piano-bg);color:var(--piano-ink);border-top:4px solid var(--piano)}
+.room.piano .k{color:var(--piano)} .room.piano .go{color:var(--piano)}
+.room.piano b{font-family:var(--en);font-weight:600;font-size:1.9rem}
+.room.piano .keys{position:absolute;left:0;right:0;top:0;height:16px;
+  background:repeating-linear-gradient(90deg,transparent 0 15px,var(--piano-ink) 15px 21px,transparent 21px 36px,var(--piano-ink) 36px 42px,transparent 42px 78px,var(--piano-ink) 78px 84px,transparent 84px 99px,var(--piano-ink) 99px 105px,transparent 105px 120px,var(--piano-ink) 120px 126px,transparent 126px 147px);
+  opacity:.9}
+.room.piano .keys::after{content:"";position:absolute;left:0;right:0;bottom:0;border-bottom:1px solid var(--piano-ink)}
+
+.note{color:var(--soft);font-size:.85rem;margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.ghost{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:5px 14px;font-size:.85rem}
+.foot{margin-top:28px;display:flex;justify-content:center}
+.foot svg{width:120px;height:28px;color:var(--clay);opacity:.6}
+
+@media (min-width:820px){
+  .radio{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"head queue" "stage queue" "now queue" "controls queue" "status queue" "moods queue" "sources queue"}
+  .radio-head{grid-area:head}.stage{grid-area:stage}.now{grid-area:now}.controls{grid-area:controls}.status{grid-area:status}.moods{grid-area:moods;padding-bottom:0}.sources{grid-area:sources;padding-bottom:18px}
+  .queue-wrap{grid-area:queue;border-left:1px solid var(--line);padding:18px}
+  .queue{max-height:none}
+  .moods{grid-template-columns:repeat(4,1fr)}
+  .rooms{grid-template-columns:repeat(3,1fr)}
+  .room{min-height:230px}
+  h1{font-size:3rem}
+  .sky{height:120px}.sky .orb{top:40px}
+  header{margin-top:-40px}
+}
+@media (max-width:420px){.moods{grid-template-columns:repeat(2,1fr)} .mood{min-height:68px}}
+@media (prefers-reduced-motion:no-preference){.mood,.ctl,.room{transition:transform .15s ease,box-shadow .15s ease} .mood:active,.ctl:active{transform:scale(.97)} .room:hover{transform:translateY(-2px)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="alpona" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="50" cy="50" r="6"/>
+    <g id="pet"><path d="M50 44 C44 34 44 20 50 12 C56 20 56 34 50 44 Z"/><path d="M50 40 C47 32 47 24 50 18"/><circle cx="50" cy="8" r="1.6" fill="currentColor" stroke="none"/></g>
+    <use href="#pet" transform="rotate(45 50 50)"/><use href="#pet" transform="rotate(90 50 50)"/><use href="#pet" transform="rotate(135 50 50)"/>
+    <use href="#pet" transform="rotate(180 50 50)"/><use href="#pet" transform="rotate(225 50 50)"/><use href="#pet" transform="rotate(270 50 50)"/><use href="#pet" transform="rotate(315 50 50)"/>
+    <circle cx="50" cy="50" r="46" stroke-dasharray="1 5"/>
+  </symbol>
+  <symbol id="vine" viewBox="0 0 240 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+    <path d="M4 20 C40 2 60 38 100 20 S160 2 200 20 S230 30 236 20"/>
+    <path d="M60 20 c-6 -10 2 -16 8 -8 M140 20 c6 -10 -2 -16 -8 -8 M100 20 c0 -8 6 -10 10 -6"/>
+    <circle cx="4" cy="20" r="2" fill="currentColor"/><circle cx="236" cy="20" r="2" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<div class="sky" aria-hidden="true"><span class="orb" id="orb"></span><svg class="alpona"><use href="#alpona"/></svg></div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="mark" aria-hidden="true"><svg><use href="#alpona"/></svg></span>
+      <h1>সুরঘর<small>Surghor · the house of three rooms</small></h1>
+    </div>
+    <div class="today" id="today"></div>
+  </header>
+
+  <section class="radio" id="radio" aria-label="Mood radio · আজকের সুর">
+    <div class="radio-head">
+      <div class="eyebrow">বৈঠকখানা · Mood radio</div>
+      <p class="guess" id="guess"></p>
+    </div>
+    <div class="stage">
+      <div id="yt"></div>
+      <div class="cover">
+        <button class="big" id="play" type="button" aria-label="বাজাও · Play">▶</button>
+        <span class="cap">Landscape, Rabindranath Tagore, 1937</span>
+      </div>
+    </div>
+    <div class="now empty" id="now">এখনও কিছু বাজছে না — ▶ টিপুন।</div>
+    <div class="controls" role="group" aria-label="Playback">
+      <button class="ctl" id="prev" type="button">⏮<small>আগের</small></button>
+      <button class="ctl" id="like" type="button" aria-pressed="false">♡<small>ভালো লাগল</small></button>
+      <button class="ctl main" id="toggle" type="button" aria-label="বাজাও / থামাও">▶<small>বাজাও</small></button>
+      <button class="ctl" id="next" type="button" title="Skip — the radio learns from this">⏭<small>পরের</small></button>
+      <a class="ctl" id="open" href="#" target="_blank" rel="noopener">↗<small>সাইটে</small></a>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+    <div class="moods" id="moods" role="group" aria-label="ভাব · Mood"></div>
+    <div class="sources" role="group" aria-label="উৎস · Sources">
+      <span class="lbl">কোন ঘর থেকে:</span>
+      <button class="src" type="button" data-src="tagore" aria-pressed="true" style="--c:var(--tagore)"><i></i>রবীন্দ্রসঙ্গীত</button>
+      <button class="src" type="button" data-src="raag" aria-pressed="true" style="--c:var(--raag)"><i></i>রাগ</button>
+      <button class="src" type="button" data-src="piano" aria-pressed="true" style="--c:var(--piano)"><i></i>পিয়ানো</button>
+    </div>
+    <div class="queue-wrap">
+      <div class="queue-head"><h3>এর পরে</h3><small id="qcount">Up next</small></div>
+      <ol class="queue" id="queue" aria-label="Up next"></ol>
+    </div>
+  </section>
+
+  <div class="rooms-head"><h2>তিনটি ঘর</h2><small>Three rooms · three sites</small></div>
+  <div class="rooms">
+    <a class="room tagore" href="/Anandadhara/">
+      <svg class="alp" aria-hidden="true"><use href="#alpona"/></svg>
+      <span class="k">Anandadhara · Rabindrasangeet</span>
+      <b>আনন্দধারা</b>
+      <p>রবীন্দ্রনাথের গান — কথা, পর্যায়, রাগ, তাল, ভাব আর সেরা রেকর্ডিং।</p>
+      <span class="count">২,১৫৬টি গান</span>
+      <span class="go">ঘরে ঢুকুন →</span>
+    </a>
+    <a class="room raag" href="/Raagmala/">
+      <svg class="mandala" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="#d9b254" stroke-width=".8">
+        <circle cx="50" cy="50" r="40" stroke-dasharray="2 3"/>
+        <polygon points="50,10 81.2,24.8 89.3,58.6 67.5,85.4 32.5,85.4 10.7,58.6 18.8,24.8" opacity=".8"/>
+        <g fill="#d9b254" stroke="none"><circle cx="50" cy="10" r="2.6"/><circle cx="81.2" cy="24.8" r="2"/><circle cx="89.3" cy="58.6" r="2"/><circle cx="67.5" cy="85.4" r="2"/><circle cx="32.5" cy="85.4" r="2"/><circle cx="10.7" cy="58.6" r="2"/><circle cx="18.8" cy="24.8" r="2"/></g>
+        <g fill="#f3e9d6" stroke="none" font-size="7" font-family="Hind Siliguri" text-anchor="middle"><text x="50" y="4">সা</text><text x="90" y="24">রে</text><text x="97" y="63">গ</text><text x="70" y="96">ম</text><text x="30" y="96">প</text><text x="3" y="63">ধ</text><text x="10" y="24">নি</text></g>
+        <text x="50" y="55" fill="#f3e9d6" font-size="16" font-family="Tiro Bangla" text-anchor="middle" stroke="none">রা</text>
+      </svg>
+      <span class="k">Raagmala · Hindustani raags</span>
+      <b>রাগমালা</b>
+      <p>৮২টি রাগ, প্রহর আর ভাব অনুযায়ী — খেয়াল, ধ্রুপদ, ঠুমরি, শিল্পী আর ঘরানা।</p>
+      <span class="count" id="prahar-now">এই প্রহরের রাগ</span>
+      <span class="go">ঘরে ঢুকুন →</span>
+    </a>
+    <a class="room piano" href="/Piano/">
+      <span class="keys" aria-hidden="true"></span>
+      <span class="k" style="margin-top:14px;display:block">Piano · classical piano</span>
+      <b>Piano <span style="font-family:var(--bn);font-weight:400">পিয়ানো</span></b>
+      <p>বাখ থেকে বিংশ শতক — সুরকার, পিয়ানোবাদক আর মেজাজ।</p>
+      <span class="count">999 works</span>
+      <span class="go">ঘরে ঢুকুন →</span>
+    </a>
+  </div>
+
+  <p class="note">রেডিও আপনার পছন্দ শেখে: কোনটা শেষ পর্যন্ত শুনলেন, কোনটা বাদ দিলেন, কোনটা ভালো লাগল। সব তথ্য শুধু এই ফোনে থাকে।
+    <button class="ghost" id="forget" type="button">ভুলে যাও · Reset</button>
+    <button class="ghost" id="theme" type="button" aria-label="Toggle dark mode">☾ / ☀</button></p>
+  <div class="foot" aria-hidden="true"><svg><use href="#vine"/></svg></div>
+</div>
+
+<script src="common.js"></script>
+<script>
+"use strict";
+const S = window.Surghor, $ = (id) => document.getElementById(id);
+const ctx = S.context();
+document.documentElement.dataset.part = ctx.partKey;
+const orbX = { dawn: 12, morning: 30, noon: 50, afternoon: 68, evening: 84, night: 90 }[ctx.partKey];
+$("orb").style.setProperty("--x", orbX + "%");
+$("today").innerHTML = `<b>${ctx.partBn} · ${ctx.seasonBn}</b>${S.dateBn(ctx.d)}<br><small>${S.esc(ctx.partEn)} · ${S.esc(ctx.seasonEn)}</small>`;
+$("prahar-now").textContent = `প্রহর ${S.bn(ctx.prahar)} · এখনকার রাগ`;
+
+function tagStyle(src) { return `--c:${S.SRC[src].c}`; }
+const radio = S.createRadio({
+  ytId: "yt",
+  sources: () => [...document.querySelectorAll(".src[aria-pressed='true']")].map((b) => b.dataset.src),
+  onStatus: (t) => { $("status").textContent = t; },
+  onMood(mood, guessed) {
+    const m = S.MOODS[guessed];
+    $("guess").innerHTML = `এখন ${ctx.partBn}, ঋতু ${ctx.seasonBn} — আজ মনে হচ্ছে <b>${m.bn}</b>।<small>It's ${S.esc(ctx.partEn)} in ${S.esc(ctx.seasonEn.split(" · ")[0])} — feels like ${S.esc(m.en.toLowerCase())}. Or choose another:</small>`;
+    $("moods").innerHTML = Object.entries(S.MOODS).map(([k, x]) =>
+      `<button class="mood m-${k} ${k === guessed ? "guess-mark" : ""}" type="button" data-m="${k}" aria-pressed="${k === mood}"><b>${x.bn}</b><span>${x.en} · ${x.hint}</span></button>`).join("") +
+      `<button class="mood more" type="button" id="remix">↻ নতুন তালিকা<br><span>New mix</span></button>`;
+  },
+  onQueue(queue, pos) {
+    $("queue").innerHTML = queue.map((q, i) => `<li data-i="${i}" class="${i === pos ? "cur" : ""}" style="${tagStyle(q.src)}"><span class="n">${S.esc(S.SRC[q.src].short)}</span><span class="q"><div>${S.esc(q.title)}</div><small>${S.esc(q.sub)}</small></span><span class="d">${S.fmt(q.sec)}</span></li>`).join("");
+    $("qcount").textContent = `Up next · ${S.bn(queue.length)}টি`;
+    const q = queue[pos];
+    $("now").className = "now";
+    $("now").innerHTML = `<span class="tag" style="${tagStyle(q.src)}">${S.esc(S.SRC[q.src].bn)}</span><div><div class="t">${S.esc(q.title)}</div><div class="s">${S.esc(q.sub)}</div></div>`;
+    $("open").href = q.link;
+    const liked = radio.isLiked(q);
+    $("like").innerHTML = (liked ? "♥" : "♡") + "<small>ভালো লাগল</small>"; $("like").setAttribute("aria-pressed", liked);
+    $("queue").querySelector(".cur")?.scrollIntoView({ block: "nearest" });
+  },
+  onPlaying(p) { $("toggle").innerHTML = p ? "⏸<small>থামাও</small>" : "▶<small>চালাও</small>"; },
+  onStart() { $("radio").classList.add("on"); $("toggle").innerHTML = "⏸<small>থামাও</small>"; },
+});
+$("moods").addEventListener("click", (e) => {
+  if (e.target.closest("#remix")) { radio.started ? radio.rebuild() : radio.play(); return; }
+  const b = e.target.closest(".mood[data-m]"); if (b) radio.setMood(b.dataset.m);
+});
+document.querySelector(".sources").addEventListener("click", (e) => {
+  const b = e.target.closest(".src"); if (!b) return;
+  b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); radio.sourcesChanged();
+});
+$("play").addEventListener("click", () => radio.play());
+$("toggle").addEventListener("click", () => radio.started ? radio.toggle() : radio.play());
+$("next").addEventListener("click", () => radio.next());
+$("prev").addEventListener("click", () => radio.prev());
+$("like").addEventListener("click", () => radio.like());
+$("queue").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) radio.jump(+li.dataset.i); });
+$("forget").addEventListener("click", () => { if (confirm("রেডিও যা শিখেছে সব মুছে দেব?")) radio.forget(); });
+$("theme").addEventListener("click", () => {
+  const h = document.documentElement, dark = h.dataset.theme ? h.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  h.dataset.theme = dark ? "light" : "dark";
+});
+</script>
+</body>
+</html>

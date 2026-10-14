@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>সুরঘর · design concepts</title>
+<style>
+:root{--bg:#f6f1e7;--ink:#2b2622;--soft:#6f655c;--line:#e3d9c9;--card:#fffdf8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1a18;--ink:#efe8dc;--soft:#b2a798;--line:#3a3531;--card:#262321}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri",system-ui,sans-serif;line-height:1.5;padding:24px 16px}
+.wrap{max-width:900px;margin:0 auto}
+h1{font-weight:400;margin:0 0 4px}
+p{color:var(--soft)}
+.list{display:grid;gap:14px;margin-top:20px}
+a.c{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:center;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+a.c img{width:72px;height:72px;border-radius:16px}
+a.c b{font-size:1.25rem;display:block}
+a.c span{color:var(--soft);font-size:.92rem}
+.q{margin-top:22px;font-size:.88rem;color:var(--soft)}
+code{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>সুরঘর — redesign concepts</h1>
+  <p>Phase 1: three click-through mockups on the real data of the three sites. Serve a root that has <code>/Surghor</code>, <code>/Anandadhara</code>, <code>/Raagmala</code> and <code>/Piano</code> side by side.</p>
+  <div class="list">
+    <a class="c" href="a.html"><img src="shots/a-icon.png" alt=""><div><b>A · বৈঠকখানা Baithakkhana</b><span>A warm paper house in Tagore's palette. The radio is the sitting room, colourful mood tiles, a sky band for the hour, three rooms in three characters.</span></div></a>
+    <a class="c" href="b.html"><img src="shots/b-icon.png" alt=""><div><b>B · আকাশ Akash</b><span>The sky over the house: hour and season tint the page, a drawn scene holds the mood line, the radio floats below it, three arched doorways.</span></div></a>
+    <a class="c" href="c.html"><img src="shots/c-icon.png" alt=""><div><b>C · বেতার Betar</b><span>The old valve radio in the drawing room: a mood dial with a red needle, band buttons for the three sources, brass knobs, a programme sheet, three record sleeves on the shelf.</span></div></a>
+  </div>
+  <p class="q">Test overrides on any concept: <code>?h=19</code> (hour), <code>?season=Barsha</code> (Grishma · Barsha · Sharat · Hemanta · Sheet · Basanta), <code>?theme=dark</code>. Screenshots in <code>shots/</code>; icons in <code>icons.html</code>.</p>
+</div>
+</body>
+</html>

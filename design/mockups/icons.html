@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<title>Surghor icons</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Noto+Serif+Bengali:wght@700&display=swap">
+<style>
+body{margin:0;background:#888;display:flex;gap:40px;padding:40px;font-family:sans-serif}
+.ic{width:512px;height:512px;position:relative;overflow:hidden}
+svg{display:block;width:512px;height:512px}
+/* A: cream paper, clay roof line over "সু", three room dots */
+/* B: dusk sky disc, white "সু", small moon */
+/* C: walnut square, brass dial ring, brass "সু" with needle */
+</style>
+</head>
+<body>
+<div class="ic" id="icon-a">
+  <svg viewBox="0 0 512 512">
+    <rect width="512" height="512" fill="#f3e9d6"/>
+    <path d="M96 236 L256 96 L416 236" fill="none" stroke="#b5695a" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="256" y="356" text-anchor="middle" font-family="Tiro Bangla" font-size="240" fill="#2a2320">সু</text>
+    <circle cx="196" cy="458" r="18" fill="#a65a31"/><circle cx="256" cy="458" r="18" fill="#5a2d82"/><circle cx="316" cy="458" r="18" fill="#2f7a63"/>
+  </svg>
+</div>
+<div class="ic" id="icon-b">
+  <svg viewBox="0 0 512 512">
+    <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0b89a"/><stop offset="1" stop-color="#4a3d75"/></linearGradient></defs>
+    <rect width="512" height="512" fill="url(#sky)"/>
+    <circle cx="396" cy="118" r="44" fill="#fff2c8"/><circle cx="414" cy="104" r="40" fill="#e9a992"/>
+    <path d="M0 512 V420 C120 395 240 430 380 410 S480 400 512 412 V512 Z" fill="#c9a65a"/>
+    <text x="256" y="372" text-anchor="middle" font-family="Noto Serif Bengali" font-weight="700" font-size="250" fill="#fff" stroke="#3b2f5a" stroke-width="6" paint-order="stroke">সু</text>
+  </svg>
+</div>
+<div class="ic" id="icon-c">
+  <svg viewBox="0 0 512 512">
+    <rect width="512" height="512" rx="96" fill="#5b3a2e"/>
+    <circle cx="256" cy="256" r="196" fill="#efe6d2"/>
+    <circle cx="256" cy="256" r="196" fill="none" stroke="#b08d3f" stroke-width="18"/>
+    <circle cx="256" cy="256" r="166" fill="none" stroke="#b08d3f" stroke-width="3" stroke-dasharray="4 14"/>
+    <text x="256" y="352" text-anchor="middle" font-family="Tiro Bangla" font-size="236" fill="#2b2420">সু</text>
+    <line x1="372" y1="112" x2="400" y2="78" stroke="#c23b22" stroke-width="14" stroke-linecap="round"/>
+  </svg>
+</div>
+</body>
+</html>
