@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>সুরঘর · Surghor</title>
 <meta name="description" content="Rabindrasangeet, Hindustani raags and classical piano in one place, with a mood radio that plays from all three.">
-<meta name="theme-color" content="#f6f1e7">
+<meta name="theme-color" content="#b5695a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Hind+Siliguri:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap">
@@ -361,6 +364,7 @@ $("forget").addEventListener("click", () => {
   mem = { mood: {}, src: {}, liked: [], skipped: [], played: [] }; saveMem();
   mood = guessMood(); renderGuess();
 });
+if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>
 </body>
 </html>
